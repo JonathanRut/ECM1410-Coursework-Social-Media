@@ -2,7 +2,12 @@ package socialmedia;
 
 import java.io.IOException;
 
-
+/**
+ * 
+ * 
+ * @author Jonathan Rutland & Daniel Stirling Barros
+ * @version 1.0
+ */
 public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
