@@ -14,31 +14,38 @@ public class Account {
     private ArrayList<Post> posts;
 
     public Account(String handle){
-
+        this.handle = handle;
+        this.id = CURRENT_ID;
+        CURRENT_ID++;
+        NUMBER_ACCOUNTS++;
     }
 
     public Account(String handle, String description){
-
+        this.handle = handle;
+        this.id = CURRENT_ID;
+        this.description = description;
+        CURRENT_ID++;
+        NUMBER_ACCOUNTS++;
     }
 
     public String getHandle(){
-        return "";
+        return handle;
     }
 
     public void setHandle(String handle){
-
+        this.handle = handle;
     }
 
     public int getId(){
-        return 0;
+        return id;
     }
 
     public String getDescription(){
-        return "";
+        return description;
     }
 
     public void setDescription(String decsription){
-
+        this.description = decsription;
     }
 
     public String toString(){
@@ -58,6 +65,7 @@ public class Account {
     }
 
     public void resetCounters(){
-        
+        NUMBER_ACCOUNTS = 0;
+        CURRENT_ID = 0;
     }
 }

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch SocialMedia",
+            "request": "launch",
+            "mainClass": "socialmedia.SocialMedia",
+            "projectName": "SocialMedia 2_acb4f348"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
