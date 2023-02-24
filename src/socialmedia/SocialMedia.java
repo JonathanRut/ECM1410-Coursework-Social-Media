@@ -143,9 +143,30 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException,
-			PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
-		// TODO Auto-generated method stub
-		return 0;
+			PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {		
+		if(AccountsByHandle.get(handle)==null){
+			throw new HandleNotRecognisedException();
+		}
+
+		if(Posts.get(id)==null){
+			throw new PostIDNotRecognisedException();
+		}
+
+		Post post = Posts.get(id);
+
+		if(post instanceof Endorsement){
+			throw new NotActionablePostException();
+		}
+
+		if(message.equals("") || message.length() > 100){
+			throw new InvalidPostException();
+		}
+		
+		Account account = AccountsByHandle.get(handle);
+		Comment comment = new Comment(account, post, message);
+		int newId = comment.getId();
+		Posts.put(newId, comment);
+		return newId;
 	}
 
 	@Override
