@@ -6,8 +6,8 @@ public class Post {
     private int id;
     private String message;
     private Account poster;
-    private ArrayList<Post> endorsements = new ArrayList<Post>();
-    private ArrayList<Post> comments = new ArrayList<Post>();
+    private ArrayList<Endorsement> endorsements = new ArrayList<Endorsement>();
+    private ArrayList<Comment> comments = new ArrayList<Comment>();
     private static int CURRENT_ID=0;
     public static int NUMBER_POSTS=0;
 
@@ -17,6 +17,7 @@ public class Post {
         this.id = CURRENT_ID;
         CURRENT_ID++;
         NUMBER_POSTS++;
+        poster.addPost(this);
     }
 
     public int getId(){
@@ -27,8 +28,14 @@ public class Post {
         return this.message;
     }
 
-    public void deletePost(){
-
+    public void delete(){
+        for(Endorsement endorsement : endorsements){
+            endorsement.delete();
+        }
+        for(Comment comment : comments){
+            comment.setOriginalPost(null);
+        }
+        poster.removePost(this);
     }
 
     public String toString(){
@@ -50,6 +57,34 @@ public class Post {
 
     public void resetCounters(){
         
+    }
+
+    public void addEndorsement(Endorsement endorsement){
+        endorsements.add(endorsement);
+    }
+
+    public void addComment(Comment comment){
+        comments.add(comment);
+    }
+
+    public void removeEndorsement(Endorsement endorsement){
+        int index = -1;
+        for(int i = 0; i < endorsements.size(); i++){
+            if(endorsements.get(i) == endorsement){
+                index = i;
+            }
+        }
+        endorsements.remove(index);
+    }
+
+    public void removeComment(Comment comment){
+        int index = -1;
+        for(int i = 0; i < comments.size(); i++){
+            if(comments.get(i) == comment){
+                index = i;
+            }
+        }
+        comments.remove(index);
     }
 }
 

@@ -1,6 +1,7 @@
 package socialmedia;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -58,16 +59,51 @@ public class SocialMedia implements SocialMediaPlatform {
 		return id;
 	}
 
+	/**
+	 * When an account is deleted the posts comments and endorsements related to the account are also deleted
+	 * 
+	 * When orignal post is deleted endorsements of the post should be deleted too
+	 * comments on the original post remain but with no link to the original post
+	 * 
+	 * When endorsements are deleted they are just deleted ignore endorsements and comments here
+	 * When comments are deleted the same as orignal post
+	 */
 	@Override
 	public void removeAccount(int id) throws AccountIDNotRecognisedException {
-		// TODO Auto-generated method stub
+		if(AccountsByID.get(id) == null){
+			throw new AccountIDNotRecognisedException();
+		}
+		Account deleteAccount = AccountsByID.get(id);
+		AccountsByID.remove(id);
+		String handle = deleteAccount.getHandle();
+		AccountsByHandle.remove(handle);
 
+		ArrayList<Post> deletePosts = deleteAccount.getPosts();
+		for(Post post : deletePosts){
+			int postId = post.getId();
+			Posts.remove(postId);
+		}	
+
+		deleteAccount.delete();
 	}
 
 	@Override
 	public void removeAccount(String handle) throws HandleNotRecognisedException {
-		// TODO Auto-generated method stub
+		if(AccountsByHandle.get(handle) == null){
+			throw new HandleNotRecognisedException();
+		}
+		Account deleteAccount = AccountsByHandle.get(handle);
+		AccountsByHandle.remove(handle);
+		int id = deleteAccount.getId();
+		AccountsByID.remove(id);
 
+		ArrayList<Post> deletePosts = deleteAccount.getPosts();
+		for(Post post : deletePosts){
+			int postId = post.getId();
+			Posts.remove(postId);
+		}	
+		
+		deleteAccount.delete();
 	}
 
 	@Override
