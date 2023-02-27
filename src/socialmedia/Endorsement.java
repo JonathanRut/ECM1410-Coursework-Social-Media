@@ -7,11 +7,14 @@ public class Endorsement extends Post{
         super(poster, originalPost.getMessage());
         this.originalPost = originalPost;
         originalPost.addEndorsement(this);
+        Account endorsedAccount = originalPost;
+        originalPost.getPoster();
     }
 
     @Override
     public void delete(){
         originalPost.removeEndorsement(this);
+        NUMBER_POSTS--;
     }
 
 }

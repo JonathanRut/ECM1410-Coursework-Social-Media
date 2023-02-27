@@ -207,8 +207,13 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public void deletePost(int id) throws PostIDNotRecognisedException {
-		// TODO Auto-generated method stub
-
+		if(Posts.get(id)==null){
+			throw new PostIDNotRecognisedException();
+		}
+		
+		Post deletePost = Posts.get(id);
+		Posts.remove(id);
+		deletePost.delete();
 	}
 
 	@Override
@@ -226,37 +231,37 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int getNumberOfAccounts() {
-		// TODO Auto-generated method stub
-		return 0;
+		int numberOfAccounts = Account.NUMBER_ACCOUNTS;
+		return numberOfAccounts;
 	}
 
 	@Override
 	public int getTotalOriginalPosts() {
-		// TODO Auto-generated method stub
-		return 0;
+		int numberOfPosts = Post.NUMBER_POSTS;
+		return numberOfPosts;
 	}
 
 	@Override
 	public int getTotalEndorsmentPosts() {
-		// TODO Auto-generated method stub
-		return 0;
+		int numberOfEndorsements = Endorsement.NUMBER_POSTS;
+		return numberOfEndorsements;
 	}
 
 	@Override
 	public int getTotalCommentPosts() {
-		// TODO Auto-generated method stub
-		return 0;
+		int numberOfComments = Comment.NUMBER_POSTS;
+		return numberOfComments;
 	}
 
 	@Override
 	public int getMostEndorsedPost() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public int getMostEndorsedAccount() {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 

@@ -36,6 +36,8 @@ public class Post {
             comment.setOriginalPost(null);
         }
         poster.removePost(this);
+
+        NUMBER_POSTS --;
     }
 
     public String toString(){
@@ -52,7 +54,7 @@ public class Post {
     }
 
     public Account getPoster(){
-        return new Account("hello");
+        return poster;
     }
 
     public void resetCounters(){

@@ -53,7 +53,7 @@ public class Account {
     }
 
     public void incrementEndorsements(){
-
+        
     }
 
     public void decrementEndorsements(){
@@ -64,6 +64,7 @@ public class Account {
         for(Post post : posts){
             post.delete();
         }
+        NUMBER_ACCOUNTS--;
     }
 
     public ArrayList<Post> getPosts(){
