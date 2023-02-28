@@ -2,6 +2,12 @@ package socialmedia;
 
 import java.util.ArrayList;
 
+/**
+ * The post class is used to create objects that represent users original posts on social media
+ * 
+ * @author Jonathan Rutland & Daniel Stirling Barros
+ * @version 1.0
+ */
 public class Post {
     private int id;
     private String message;

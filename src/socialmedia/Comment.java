@@ -17,5 +17,6 @@ public class Comment extends Post{
     public void delete(){
         super.delete();
         originalPost.removeComment(this);
+        originalPost = null;
     }
 }

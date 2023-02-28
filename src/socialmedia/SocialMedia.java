@@ -231,7 +231,7 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int getNumberOfAccounts() {
-		int numberOfAccounts = Account.NUMBER_ACCOUNTS;
+		int numberOfAccounts = Account.numberAccounts;
 		return numberOfAccounts;
 	}
 
