@@ -53,11 +53,11 @@ public class Account {
     }
 
     public void incrementEndorsements(){
-        
+        numberOfEndorsements++;
     }
 
     public void decrementEndorsements(){
-
+        numberOfEndorsements--;
     }
 
     public void delete(){

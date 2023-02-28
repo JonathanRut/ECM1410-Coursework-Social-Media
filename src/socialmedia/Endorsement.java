@@ -1,20 +1,22 @@
 package socialmedia;
 
 public class Endorsement extends Post{
-    private Post originalPost;
+    private Post endorsedPost;
 
-    public Endorsement(Account poster, Post originalPost){
-        super(poster, originalPost.getMessage());
-        this.originalPost = originalPost;
-        originalPost.addEndorsement(this);
-        Account endorsedAccount = originalPost;
-        originalPost.getPoster();
+    public Endorsement(Account poster, Post endorsedPost){
+        super(poster, endorsedPost.getMessage());
+        this.endorsedPost = endorsedPost;
+        endorsedPost.addEndorsement(this);
+        Account endorsedAccount = endorsedPost.getPoster();
+        endorsedAccount.incrementEndorsements();
     }
 
     @Override
     public void delete(){
-        originalPost.removeEndorsement(this);
+        endorsedPost.removeEndorsement(this);
         NUMBER_POSTS--;
+        Account endorsedAccount = endorsedPost.getPoster();
+        endorsedAccount.decrementEndorsements();
     }
 
 }
