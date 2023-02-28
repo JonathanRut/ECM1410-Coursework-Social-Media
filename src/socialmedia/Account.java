@@ -2,8 +2,17 @@ package socialmedia;
 
 import java.util.ArrayList;
 
+/**
+ * The account class is used to create objects that represent users that can post to the social media
+ * 
+ * @author Jonathan Rutland & Daniel Stirling Barros
+ * @version 1.0
+ */
 public class Account {
     
+    /**
+     * A public {@link Integer} representing the number of accounts that have been created
+     */
     public static int NUMBER_ACCOUNTS = 0;
     private static int CURRENT_ID = 0;
 
@@ -44,12 +53,16 @@ public class Account {
         return description;
     }
 
-    public void setDescription(String decsription){
-        this.description = decsription;
+    public void setDescription(String description){
+        this.description = description;
     }
 
     public String toString(){
         return "";
+    }
+
+    public int getEndorsements(){
+        return numberOfEndorsements;
     }
 
     public void incrementEndorsements(){

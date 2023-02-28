@@ -2,8 +2,8 @@ package socialmedia;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Set;
 
 /**
  * 
@@ -13,12 +13,12 @@ import java.util.Hashtable;
  */
 public class SocialMedia implements SocialMediaPlatform {
 
-	private Dictionary<Integer, Post> Posts = new Hashtable<>();
-	private Dictionary<String, Account> AccountsByHandle = new Hashtable<>();
-	private Dictionary<Integer, Account> AccountsByID = new Hashtable<>();
+	private Hashtable<Integer, Post> Posts = new Hashtable<>();
+	private Hashtable<String, Account> AccountsByHandle = new Hashtable<>();
+	private Hashtable<Integer, Account> AccountsByID = new Hashtable<>();
 
 	static public void main(String[] args){
-		Dictionary<Integer, Post> Posts = new Hashtable<>();
+		Hashtable<Integer, Post> Posts = new Hashtable<>();
 		System.out.println(Posts.get(2));
 		Account account = new Account("Daniel");
 		Post post = new Post(account, "2");
@@ -255,14 +255,32 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int getMostEndorsedPost() {
-		
-		return 0;
+		Set<Integer> ids = Posts.keySet();
+		int mostEndorsedId = -1;
+		int maxEndorsements = 0;
+		for(int id: ids){
+			Post currentPost = Posts.get(id);
+			if(currentPost.getNumberOfEndorsements() >= maxEndorsements){
+				maxEndorsements = currentPost.getNumberOfEndorsements();
+				mostEndorsedId = id;
+			}
+		}
+		return mostEndorsedId;
 	}
 
 	@Override
 	public int getMostEndorsedAccount() {
-		
-		return 0;
+		Set<Integer> ids = AccountsByID.keySet();
+		int mostEndorsedId = -1;
+		int maxEndorsements = 0;
+		for(int id : ids){
+			Account currentAccount = AccountsByID.get(id);
+			if(currentAccount.getEndorsements() >= maxEndorsements){
+				maxEndorsements = currentAccount.getEndorsements();
+				mostEndorsedId = id;
+			}
+		}
+		return mostEndorsedId;
 	}
 
 	@Override

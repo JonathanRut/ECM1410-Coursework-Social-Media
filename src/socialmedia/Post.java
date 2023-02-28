@@ -50,7 +50,7 @@ public class Post {
     }
 
     public int getNumberOfEndorsements(){
-        return 1;
+        return endorsements.size();
     }
 
     public Account getPoster(){
