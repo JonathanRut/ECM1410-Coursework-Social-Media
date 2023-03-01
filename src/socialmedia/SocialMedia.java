@@ -2,23 +2,23 @@ package socialmedia;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Set;
 
 /**
  * 
  * 
- * @author Jonathan Rutland & Daniel Stirling Barros
+ * @author Jonathan Rutland and Daniel Stirling Barros
  * @version 1.0
  */
 public class SocialMedia implements SocialMediaPlatform {
 
-	private Hashtable<Integer, Post> Posts = new Hashtable<>();
-	private Hashtable<String, Account> AccountsByHandle = new Hashtable<>();
-	private Hashtable<Integer, Account> AccountsByID = new Hashtable<>();
+	private HashMap<Integer, Post> Posts = new HashMap<Integer, Post>();
+	private HashMap<String, Account> AccountsByHandle = new HashMap<String, Account>();
+	private HashMap<Integer, Account> AccountsByID = new HashMap<Integer, Account>();
 
 	static public void main(String[] args){
-		Hashtable<Integer, Post> Posts = new Hashtable<>();
+		HashMap<Integer, Post> Posts = new HashMap<Integer, Post>();
 		System.out.println(Posts.get(2));
 		Account account = new Account("Daniel");
 		Post post = new Post(account, "2");
