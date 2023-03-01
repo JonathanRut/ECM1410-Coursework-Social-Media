@@ -237,19 +237,19 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int getTotalOriginalPosts() {
-		int numberOfPosts = Post.NUMBER_POSTS;
+		int numberOfPosts = Post.numberPosts;
 		return numberOfPosts;
 	}
 
 	@Override
 	public int getTotalEndorsmentPosts() {
-		int numberOfEndorsements = Endorsement.NUMBER_POSTS;
+		int numberOfEndorsements = Endorsement.numberPosts;
 		return numberOfEndorsements;
 	}
 
 	@Override
 	public int getTotalCommentPosts() {
-		int numberOfComments = Comment.NUMBER_POSTS;
+		int numberOfComments = Comment.numberPosts;
 		return numberOfComments;
 	}
 

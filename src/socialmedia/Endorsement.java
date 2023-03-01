@@ -14,7 +14,7 @@ public class Endorsement extends Post{
     @Override
     public void delete(){
         endorsedPost.removeEndorsement(this);
-        NUMBER_POSTS--;
+        numberPosts--;
         Account endorsedAccount = endorsedPost.getPoster();
         endorsedAccount.decrementEndorsements();
     }
