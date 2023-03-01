@@ -111,29 +111,41 @@ public class Post {
     }
     /**
      * This method adds a comment to the comments list
-     * @param comment the comment to be added
+     * @param comment the comment to be added 
      */
     public void addComment(Comment comment){
         comments.add(comment);
     }
-
+    /**
+     * This method removes an endorsement from the endorsements list 
+     * @param endorsement the endorsement to be removed
+     */
     public void removeEndorsement(Endorsement endorsement){
+        // this for loop interates through each element in the endorsements list
         int index = -1;
         for(int i = 0; i < endorsements.size(); i++){
+            // this if statement gets the index of the endorsement by comparing the ith element in the endorsement list
             if(endorsements.get(i) == endorsement){
                 index = i;
             }
         }
+        // this removes the endorsement from the endorsement list
         endorsements.remove(index);
     }
-
+    /**
+     * This method removes a comment from the comments list
+     * @param comment the comment to be removed
+     */
     public void removeComment(Comment comment){
+        // this for loop iterates through each element in the comments list
         int index = -1;
         for(int i = 0; i < comments.size(); i++){
+            // this if statement gets the index of the comment by comparing the ith element in the comments list
             if(comments.get(i) == comment){
                 index = i;
             }
         }
+        // this removes the comments from the comments list
         comments.remove(index);
     }
     
