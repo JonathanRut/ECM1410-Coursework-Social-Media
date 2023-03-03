@@ -355,15 +355,17 @@ public class SocialMedia implements SocialMediaPlatform {
 	/**
 	 * @param id the id of the post that the information is about
 	 * @throws PostIDNotRecognisedException if the id doesn't match to a post in the system
-	 * @return 
+	 * @return a string of information about the account
 	 */
 	@Override
 	public String showIndividualPost(int id) throws PostIDNotRecognisedException {
+		// This if statement checks for if the id matches to a post in the hashmap
 		if(posts.get(id)==null){
 			throw new PostIDNotRecognisedException();
 		}
-
+		// The IndividualPost related to the handle is found
 		Post post = posts.get(id);
+		// The information about the IndividualPost is returned
 		return post.toString();
 	}
 
