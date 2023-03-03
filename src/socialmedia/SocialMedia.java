@@ -34,11 +34,12 @@ public class SocialMedia implements SocialMediaPlatform {
 		socialMedia.createAccount("Daniel");
 		socialMedia.createAccount("Jonathan");
 		socialMedia.createAccount("James");
+		socialMedia.updateAccountDescription("Daniel", "I love coffee!");
 		int id = socialMedia.createPost("Daniel", "Hello!");
 		socialMedia.commentPost("Jonathan", id, "Hi!");
 		socialMedia.commentPost("James", id, "Maths");
 		socialMedia.endorsePost("Jonathan", id);
-		System.out.println(socialMedia.showIndividualPost(id));
+		System.out.println(socialMedia.showAccount("Daniel"));
 	}
 
 	/**
@@ -203,11 +204,22 @@ public class SocialMedia implements SocialMediaPlatform {
 		Account account = accountsByHandle.get(handle);
 		account.setDescription(description);
 	}
-
+	/**
+	 * This method shows an account and returns a string of information about the account
+	 * @param handle the handle of the account being shown
+	 * @throws HandleNotRecognisedException if the handle doesn't match to any account in the system
+	 * @return A string of information about the account
+	 */
 	@Override
 	public String showAccount(String handle) throws HandleNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		// This if statement checks if there is an account to match to the handle, if there isn't the exception is thrown
+		if(accountsByHandle.get(handle) == null){
+			throw new HandleNotRecognisedException();
+		}
+		// The account related to the handle is found
+		Account account = accountsByHandle.get(handle);
+		// The information about the account is returned
+		return account.toString();
 	}
 
 	/**
@@ -340,7 +352,11 @@ public class SocialMedia implements SocialMediaPlatform {
 		posts.remove(id);
 		deletePost.delete();
 	}
-
+	/**
+	 * @param id the id of the post that the information is about
+	 * @throws PostIDNotRecognisedException if the id doesn't match to a post in the system
+	 * @return 
+	 */
 	@Override
 	public String showIndividualPost(int id) throws PostIDNotRecognisedException {
 		if(posts.get(id)==null){

@@ -150,15 +150,18 @@ public class Post {
     }
     @Override
     /**
-     * This method 
+     * This method returns a string of information about the Individual post
+     * @return the string of information about the post 
      */
     public String toString(){
+        // A new StringBuilder is created and then information about the Individual post is appended to it
         StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("ID: ").append(ID).append("\n");
 		stringBuilder.append("Account: ").append(poster.getHandle()).append("\n");
 		stringBuilder.append("No. endorsements: ").append(getNumberOfEndorsements()).append(" | ");
 		stringBuilder.append("No. comments: ").append(comments.size()).append("\n");
 		stringBuilder.append(message);
+        // The information is returned as a string
         return stringBuilder.toString();
     }
 

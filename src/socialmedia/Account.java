@@ -195,9 +195,21 @@ public class Account {
         // The post is removed using this ID
         posts.remove(index);
     }
-
+    /**
+     * This method returns a string of information about the account
+     * @return the string of information about the account
+     */
+    @Override
     public String toString(){
-        return "";
+        // A new StringBuilder is created and then information about the account is appended to it
+        StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("ID: ").append(ID).append("\n");
+		stringBuilder.append("Handle: ").append(handle).append("\n");
+		stringBuilder.append("Description: ").append(description).append("\n");
+		stringBuilder.append("Post count: ").append(posts.size()).append("\n");
+		stringBuilder.append("Endorse count: ").append(numberOfEndorsements).append("\n");
+        // The information is returned as a string
+        return stringBuilder.toString();
     }
 
 }
