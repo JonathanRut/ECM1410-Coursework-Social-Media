@@ -85,7 +85,7 @@ public class Post {
         numberPosts--;
     }
     /**
-     * This method gets the number of endorsements in the endorsements list
+     * This method gets the number of endorsements on the post
      * @return the number of endorsements returned
      */
     public int getNumberOfEndorsements(){
@@ -148,12 +148,23 @@ public class Post {
         // this removes the comments from the comments list
         comments.remove(index);
     }
-    
+    @Override
+    /**
+     * This method 
+     */
     public String toString(){
-        return "";
+        StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("ID: ").append(ID).append("\n");
+		stringBuilder.append("Account: ").append(poster.getHandle()).append("\n");
+		stringBuilder.append("No. endorsements: ").append(getNumberOfEndorsements()).append(" | ");
+		stringBuilder.append("No. comments: ").append(comments.size()).append("\n");
+		stringBuilder.append(message);
+        return stringBuilder.toString();
     }
 
     public StringBuilder showChildren(){
+
+    
     return new StringBuilder();
 
     }

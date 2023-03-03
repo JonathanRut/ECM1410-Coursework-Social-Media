@@ -29,12 +29,16 @@ public class SocialMedia implements SocialMediaPlatform {
 	 */
 	private HashMap<Integer, Account> accountsById = new HashMap<Integer, Account>();
 
-	static public void main(String[] args){
-		HashMap<Integer, Post> posts = new HashMap<Integer, Post>();
-		System.out.println(posts.get(2));
-		Account account = new Account("Daniel");
-		Post post = new Post(account, "2");
-		System.out.println(post instanceof Endorsement);
+	static public void main(String[] args) throws Exception{
+		SocialMedia socialMedia = new SocialMedia();
+		socialMedia.createAccount("Daniel");
+		socialMedia.createAccount("Jonathan");
+		socialMedia.createAccount("James");
+		int id = socialMedia.createPost("Daniel", "Hello!");
+		socialMedia.commentPost("Jonathan", id, "Hi!");
+		socialMedia.commentPost("James", id, "Maths");
+		socialMedia.endorsePost("Jonathan", id);
+		System.out.println(socialMedia.showIndividualPost(id));
 	}
 
 	/**
@@ -339,14 +343,27 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public String showIndividualPost(int id) throws PostIDNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		if(posts.get(id)==null){
+			throw new PostIDNotRecognisedException();
+		}
+
+		Post post = posts.get(id);
+		return post.toString();
 	}
 
 	@Override
 	public StringBuilder showPostChildrenDetails(int id)
 			throws PostIDNotRecognisedException, NotActionablePostException {
-		// TODO Auto-generated method stub
+		if(posts.get(id)==null){
+			throw new PostIDNotRecognisedException();
+		}
+
+		Post post = posts.get(id);
+		if(post instanceof Endorsement){
+			throw new NotActionablePostException();
+		}
+
+		
 		return null;
 	}
 
