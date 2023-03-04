@@ -31,15 +31,30 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	static public void main(String[] args) throws Exception{
 		SocialMedia socialMedia = new SocialMedia();
-		socialMedia.createAccount("Daniel");
-		socialMedia.createAccount("Jonathan");
-		socialMedia.createAccount("James");
-		socialMedia.updateAccountDescription("Daniel", "I love coffee!");
-		int id = socialMedia.createPost("Daniel", "Hello!");
-		socialMedia.commentPost("Jonathan", id, "Hi!");
-		socialMedia.commentPost("James", id, "Maths");
-		socialMedia.endorsePost("Jonathan", id);
-		System.out.println(socialMedia.showAccount("Daniel"));
+		// Createing accounts
+		socialMedia.createAccount("user1");
+		socialMedia.createAccount("user2");
+		socialMedia.createAccount("user3");
+		socialMedia.createAccount("user5");
+
+		// Createing posts
+		socialMedia.createPost("user1", "j");
+		socialMedia.createPost("user1", "I like examples.");
+		socialMedia.endorsePost("user2", 1);
+
+		// Creating comments
+		socialMedia.commentPost("user2", 1, "No more than me...");
+		socialMedia.commentPost("user3", 1, "Can't you do better than this?");
+		socialMedia.commentPost("user1", 3, "I can prove it!");
+		socialMedia.commentPost("user2", 5, "prove it");
+		socialMedia.commentPost("user5", 1, "where is the example?");
+		socialMedia.endorsePost("user1", 4);
+		socialMedia.endorsePost("user2", 4);
+		socialMedia.commentPost("user1", 7, "This is the example!");
+		socialMedia.endorsePost("user5", 4);
+		socialMedia.endorsePost("user2", 4);
+
+		System.out.println(socialMedia.showPostChildrenDetails(5).toString());
 	}
 
 	/**
@@ -369,20 +384,31 @@ public class SocialMedia implements SocialMediaPlatform {
 		return post.toString();
 	}
 
+	/**
+	 * This methods makes a string builder of a post details and the childrens detials for a given post id
+	 * @param id The post for the string builder to be generated from
+	 * @throws PostIDNotRecognisedException if the id doesn't match to a post in the system
+	 * @throws NotActionablePostException if the id refers to an endorsement
+	 * @return the string builder of the post and its children 
+	 */
 	@Override
 	public StringBuilder showPostChildrenDetails(int id)
 			throws PostIDNotRecognisedException, NotActionablePostException {
+		// This if statement checks for if the id matches to a post in the hashmap
 		if(posts.get(id)==null){
 			throw new PostIDNotRecognisedException();
 		}
 
+		// The post having the strinbg builder genereted on is checked to see if it is an endorsement if it is then the exception is thrown
 		Post post = posts.get(id);
 		if(post instanceof Endorsement){
 			throw new NotActionablePostException();
 		}
 
-		
-		return null;
+		// A method from Post should generate a string builder of its details and its childrens
+		StringBuilder postChildrenDetails = post.showChildren(0);
+		// The string builder is returned
+		return postChildrenDetails;
 	}
 
 	/**

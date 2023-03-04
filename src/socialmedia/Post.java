@@ -99,9 +99,15 @@ public class Post {
         return poster;
     }
 
+    /**
+     * Resets the static counters for post
+     */
     public void resetCounters(){
-        
+        numberPosts = 0;
+        currentId = 0;
     }
+
+
     /**
      * This method adds an endorsement to the endorsements list
      * @param endorsement the endorsement to be added
@@ -165,11 +171,53 @@ public class Post {
         return stringBuilder.toString();
     }
 
-    public StringBuilder showChildren(){
 
-    
-    return new StringBuilder();
+    /**
+     * This method returns a string of information about the Individual post with a given indent
+     * @param indent the number of indents needed
+     * @return the string of information about the post 
+     */
+    public String toString(int indent){
+        // A new StringBuilder is created and then information about the Individual post is appended to it
+        StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(" ".repeat((indent - 1) * 4) + "| > ").append("ID: ").append(ID).append("\n");
+		stringBuilder.append(" ".repeat(indent * 4)).append("Account: ").append(poster.getHandle()).append("\n");
+		stringBuilder.append(" ".repeat(indent * 4)).append("No. endorsements: ").append(getNumberOfEndorsements()).append(" | ");
+		stringBuilder.append("No. comments: ").append(comments.size()).append("\n");
+		stringBuilder.append(" ".repeat(indent * 4)).append(message);
+        // The information is returned as a string
+        return stringBuilder.toString();
+    }
 
+    /**
+     * This method recursively generates a string builder with details of the current posts and its children posts
+     * @param indent the indent to be applied to the details of the children
+     * @return A string builder of the children posts
+     */
+    public StringBuilder showChildren(int indent){
+        // A new string builder is instantiated
+        StringBuilder stringBuilder = new StringBuilder();
+
+        // If this is the current post then no indent is needed
+        if(indent == 0){
+            stringBuilder.append(toString());
+        }
+        // Otherwise an indent is applied to the details
+        else{
+            stringBuilder.append(toString(indent));
+        }
+        stringBuilder.append("\n");
+        // This for loop iterates through the comments of the post
+        for(int i = 0; i < comments.size(); i++){
+            // If it is the first comment then a bar is added at the tops
+            if(i == 0){
+                stringBuilder.append("    ".repeat(indent)+"|\n");
+            }
+            // Then the deatils about the comments children is gotten from the comment with an increased indent
+            stringBuilder.append(comments.get(i).showChildren(indent + 1).toString());
+        }
+        // Finally the string builder is returned
+        return stringBuilder;
     }
 }
 
