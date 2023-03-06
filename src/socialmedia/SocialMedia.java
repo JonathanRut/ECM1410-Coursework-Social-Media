@@ -17,17 +17,17 @@ public class SocialMedia implements SocialMediaPlatform {
 	 * A {@link HashMap} is used here to store key value pairs with the keys of type {@link Integer} and values of type {@link Post}
 	 * This provides a way of getting Posts based of IDs
 	 */
-	private HashMap<Integer, Post> posts = new HashMap<Integer, Post>();
+	public static HashMap<Integer, Post> posts = new HashMap<Integer, Post>();
 	/**
 	 * A {@link HashMap} is used here to store key value pairs with the keys of type {@link String} and values of type {@link Account}
 	 * This provides a way of getting Accounts based of their handles
 	 */
-	private HashMap<String, Account> accountsByHandle = new HashMap<String, Account>();
+	public static HashMap<String, Account> accountsByHandle = new HashMap<String, Account>();
 	/**
 	 * A {@link HashMap} is used here to store key value pairs with the keys of type {@link Integer} and values of type {@link Account}
 	 * This provides a way of getting Accounts based of their ids
 	 */
-	private HashMap<Integer, Account> accountsById = new HashMap<Integer, Account>();
+	public static HashMap<Integer, Account> accountsById = new HashMap<Integer, Account>();
 
 	static public void main(String[] args) throws Exception{
 		SocialMedia socialMedia = new SocialMedia();
