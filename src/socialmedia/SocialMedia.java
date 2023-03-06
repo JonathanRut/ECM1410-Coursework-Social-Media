@@ -66,15 +66,7 @@ public class SocialMedia implements SocialMediaPlatform {
 	 */
 	@Override
 	public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
-		// This if statement checks if the handle already exists in social media an throws the exception if it does
-		if(accountsByHandle.get(handle) != null){
-			throw new IllegalHandleException();
-		}
-		// This if statement checks if the handle is empty, has more than 30 characters or contains whitespaces and throws the exception if it does
-		if(handle.equals("") || handle.length() > 30 || handle.contains(" ")){
-			throw new InvalidHandleException();
-		}
-
+		
 		// A new account object is created and instatiated
 		Account newAccount = new Account(handle);
 		// The id is retrieved from the account and used along with the account handle to add the account to the the hashmaps

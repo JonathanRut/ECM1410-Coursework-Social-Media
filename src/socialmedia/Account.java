@@ -47,14 +47,23 @@ public class Account {
      * 
      * @param handle The handle which will be given to the account
      */
-    public Account(String handle){
-        // The accounts handle, id and description are set
+    public Account(String handle) throws IllegalHandleException, InvalidHandleException {
+        if(SocialMedia.accountsByHandle.get(handle) !=null){
+            throw new IllegalHandleException();
+        }
+
+        if(handle.equals("") || handle.length() > 30 || handle.contains(" ")){
+			throw new InvalidHandleException();
+		}
+        //TODO
+       // The accounts handle, id and description are set
         this.handle = handle;
         this.ID = currentId;
         this.description = "";
         // Then the counters are incremented by 1
         currentId++;
         numberAccounts++;
+        
     }
 
     /**
@@ -63,7 +72,15 @@ public class Account {
      * @param handle The hadle which will be given to the account
      * @param description The description which will be given to the account
      */
-    public Account(String handle, String description){
+    public Account(String handle, String description) throws IllegalHandleException, InvalidHandleException{
+        if(SocialMedia.accountsByHandle.get(handle) !=null){
+            throw new IllegalHandleException();
+        }
+
+        if(handle.equals("") || handle.length() > 30 || handle.contains(" ")){
+			throw new InvalidHandleException();
+		}
+        //TODO
         // The accounts handle, id and description are set
         this.handle = handle;
         this.ID = currentId;
@@ -87,7 +104,15 @@ public class Account {
      * 
      * @param handle the new handle of an account to be set
      */
-    public void setHandle(String handle){
+    public void setHandle(String handle) throws IllegalHandleException, InvalidHandleException {
+        // This if statement checks if there is an account in the system already with the new handle, if there is the exception is thrown
+		if(SocialMedia.accountsByHandle.get(handle) != null){
+			throw new IllegalHandleException();
+		}
+        // This if statement check for is the new handle is empty or has more than 30 characters or contains whitespaces, if it is then the exception is thrown
+		if(handle.equals("") || handle.length() > 30 || handle.contains(" ")){
+			throw new InvalidHandleException();
+		}
         this.handle = handle;
     }
 
@@ -114,7 +139,7 @@ public class Account {
      * 
      * @param description the new description to be set
      */
-    public void setDescription(String description){
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -144,7 +169,7 @@ public class Account {
     /**
      * Deletes an account by deleting its posts and decrementing the counter
      */
-    public void delete(){
+    public void delete() {
         // The for loops goes through the accounts posts and calls their delete method
         for(Post post : posts){
             post.delete();
@@ -212,4 +237,5 @@ public class Account {
         return stringBuilder.toString();
     }
 
+    
 }

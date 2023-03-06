@@ -16,7 +16,8 @@ public class Comment extends Post{
      * @param originalpost the post that the commenter is posting the comment in
      * @param message the message the comment contains
      */
-    public Comment(Account poster, Post originalpost, String message){
+    public Comment(Account poster, Post originalpost, String message) throws InvalidPostException, PostIDNotRecognisedException, NotActionablePostException{
+        //TODO
         // Use the constructor of the super class to partially initiliase the comment
         super(poster, message);
         // the original post get set

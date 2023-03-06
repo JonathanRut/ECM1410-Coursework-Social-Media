@@ -12,15 +12,15 @@ public class Post {
      /**
      * A private constant {@link Integer} used to store the id of a post this is unique to the post
      */
-    private final int ID;
+    protected final int ID;
     /**
      * A private variable {@link String} used to store the message for the post
      */
-    private String message;
+    protected String message;
     /**
      * A private variable {@link Account} used to store the account who posted the post
      */
-    private Account poster;
+    protected Account poster;
     /**
      * A private list {@link ArrayList} containing elements of type {@link Endorsement} used to store the endorsements of a post
      */
@@ -32,7 +32,7 @@ public class Post {
     /**
      * A private variable {@link Integer} that stores the id of the next post to be created
      */
-    private static int currentId=0;
+    protected static int currentId=0;
     /**
      * A private variable {@link Integer} that stores the number of posts on the social media platform
      */
@@ -42,7 +42,11 @@ public class Post {
      * @param poster is the account that has posted the post
      * @param message is the message that the account has written in the post
      */
-    public Post(Account poster, String message){
+    public Post(Account poster, String message) throws InvalidPostException{
+        // This if statement checks if the message is empty or contains more than 100 characters, if it does then the exception is thrown
+		if(message.equals("") || message.length() > 100){
+			throw new InvalidPostException();
+		}
         // fields get given their values
         this.poster = poster;
         this.message = message;
