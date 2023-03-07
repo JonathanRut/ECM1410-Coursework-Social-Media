@@ -534,7 +534,6 @@ public class SocialMedia implements SocialMediaPlatform {
 	@Override
 	public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-
 	}
 
 }
