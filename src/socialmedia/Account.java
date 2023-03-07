@@ -105,6 +105,7 @@ public class Account {
      * @param handle the new handle of an account to be set
      */
     public void setHandle(String handle) throws IllegalHandleException, InvalidHandleException {
+        //TODO
         // This if statement checks if there is an account in the system already with the new handle, if there is the exception is thrown
 		if(SocialMedia.accountsByHandle.get(handle) != null){
 			throw new IllegalHandleException();

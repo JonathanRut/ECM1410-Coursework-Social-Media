@@ -54,7 +54,18 @@ public class SocialMedia implements SocialMediaPlatform {
 		socialMedia.endorsePost("user5", 4);
 		socialMedia.endorsePost("user2", 4);
 
-		System.out.println(socialMedia.showPostChildrenDetails(5).toString());
+		/*
+			4 accounts
+		 	2 original posts
+			5 endorements
+			6 comments
+		 */
+
+		System.out.println(socialMedia.showPostChildrenDetails(1).toString());
+		System.out.println(socialMedia.getNumberOfAccounts());
+		System.out.println(socialMedia.getTotalOriginalPosts());
+		System.out.println(socialMedia.getTotalEndorsmentPosts());
+		System.out.println(socialMedia.getTotalCommentPosts());
 	}
 
 	/**
@@ -66,7 +77,14 @@ public class SocialMedia implements SocialMediaPlatform {
 	 */
 	@Override
 	public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
-		
+		// This if statement checks if the handle already exists in social media an throws the exception if it does
+		if(accountsByHandle.get(handle) != null){
+			throw new IllegalHandleException();
+		}
+		// This if statement checks if the handle is empty, has more than 30 characters or contains whitespaces and throws the exception if it does
+		if(handle.equals("") || handle.length() > 30 || handle.contains(" ")){
+			throw new InvalidHandleException();
+		}
 		// A new account object is created and instatiated
 		Account newAccount = new Account(handle);
 		// The id is retrieved from the account and used along with the account handle to add the account to the the hashmaps
@@ -289,7 +307,11 @@ public class SocialMedia implements SocialMediaPlatform {
 		// The account posting the endorsement is retrieved
 		Account account = accountsByHandle.get(handle);
 		// The endorsement is created with the account posting it and the post being endorsed
-		Endorsement endorsement = new Endorsement(account, post);
+		Endorsement endorsement = null;
+		try
+		{endorsement = new Endorsement(account, post);}
+		catch(Exception e){}
+		finally{}
 		// The id of this endorsement is retrieved and the endorsement is added to the hashmaps of posts
 		int newId = endorsement.getId();
 		posts.put(newId, endorsement);

@@ -1,4 +1,6 @@
 package socialmedia;
+
+
 /**
  * This endorsement class is used to create endorsement objects that represent endorsements from posts
  * 
@@ -15,18 +17,10 @@ public class Endorsement extends Post{
      * @param poster the account that is endorsing the post
      * @param endorsedPost the post that is being endorsed
      */
-    public Endorsement(Account poster, Post endorsedPost) throws InvalidPostException, NotActionablePostException, PostIDNotRecognisedException{
+    public Endorsement(Account poster, Post endorsedPost) throws Exception{
         //TODO
         // Use the constructor of the super class to set the poster and the mesage of the endorsedpost
-        // fields get given their values
-        this.poster = poster;
-        this.message = endorsedPost.getMessage();
-        this.ID = currentId;
-        // static counters get incremented
-        currentId++;
-        numberPosts++;
-        // Post is getting added to accounts list of posts
-        poster.addPost(this);
+        super(poster, endorsedPost.getMessage());
         // The post being endorsed gets set
         this.endorsedPost = endorsedPost;
         // The endorsement gets added to the originals post endorsements list
