@@ -5,32 +5,36 @@ package socialmedia;
  * @author Jonathan Rutland and Daniel Stirling Barros
  * @version 1.0
  */
-public class Comment extends Post{
+public class Comment extends ActionablePost{
+    public static int numberComments = 0;
     /**
-     * A private field {@link Post} that stores a post that has been commented on
+     * A private field {@link Actionable} that stores a post that has been commented on
      */
-    private Post originalPost;
+    private ActionablePost commentedPost;
     /**
      * A constructor that creates a new comment object
      * @param poster the account of the commenter
-     * @param originalpost the post that the commenter is posting the comment in
+     * @param commentedPost the post that the commenter is posting the comment in
      * @param message the message the comment contains
      */
-    public Comment(Account poster, Post originalpost, String message) throws InvalidPostException, PostIDNotRecognisedException, NotActionablePostException{
+    public Comment(Account poster, ActionablePost commentedPost, String message) throws InvalidPostException, PostIDNotRecognisedException, NotActionablePostException{
         //TODO
         // Use the constructor of the super class to partially initiliase the comment
-        super(poster, message);
+        super();
         // the original post get set
-        this.originalPost = originalpost;
+        this.commentedPost = commentedPost;
+        this.poster = poster;
+        this.message = message;
+        numberComments++;
         // the comment is added to the original post list of comments
-        originalpost.addComment(this);
+        commentedPost.addComment(this);
     }
     /**
      * This method is used to set the original post
-     * @param originalPost the post to be set
+     * @param commentedPost the post to be set
      */
-    public void setOriginalPost(Post originalPost){
-        this.originalPost = originalPost;
+    public void setCommentedPost(ActionablePost commentedPost){
+        this.commentedPost = commentedPost;
     }
     /**
      * This method overrides the delete method from posts and deletes the comment
@@ -40,8 +44,16 @@ public class Comment extends Post{
         // use the super method of deleting to partially remove the comment
         super.delete();
         // the comment is remove from the original post list of comments
-        originalPost.removeComment(this);
+        commentedPost.removeComment(this);
         // the link to the original post is removed
-        originalPost = null;
+        commentedPost = null;
     }
+
+    @Override
+    //TODO
+    public void resetCounters(){
+        super.resetCounters();
+        numberComments = 0;
+    }
+
 }

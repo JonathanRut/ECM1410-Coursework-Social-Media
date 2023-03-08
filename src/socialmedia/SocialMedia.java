@@ -268,7 +268,7 @@ public class SocialMedia implements SocialMediaPlatform {
 		// The account posting the post is retrived from the hashmap
 		Account poster = accountsByHandle.get(handle);
 		// The new post is created with the poster account and message of the post
-		Post newPost = new Post(poster, message);
+		OriginalPost newPost = new OriginalPost(poster, message);
 		// The id of the post is retrieved and the post is added to the hashmaps of posts
 		int id = newPost.getId();
 		posts.put(id, newPost);
@@ -307,11 +307,7 @@ public class SocialMedia implements SocialMediaPlatform {
 		// The account posting the endorsement is retrieved
 		Account account = accountsByHandle.get(handle);
 		// The endorsement is created with the account posting it and the post being endorsed
-		Endorsement endorsement = null;
-		try
-		{endorsement = new Endorsement(account, post);}
-		catch(Exception e){}
-		finally{}
+		Endorsement endorsement = new Endorsement(account, (ActionablePost)post);
 		// The id of this endorsement is retrieved and the endorsement is added to the hashmaps of posts
 		int newId = endorsement.getId();
 		posts.put(newId, endorsement);
@@ -355,7 +351,7 @@ public class SocialMedia implements SocialMediaPlatform {
 		// The account posting the comment is retrieved
 		Account account = accountsByHandle.get(handle);
 		// The comment is created with the poster the post being commented and the message of the post
-		Comment comment = new Comment(account, post, message);
+		Comment comment = new Comment(account, (ActionablePost)post, message);
 		// The post id is retrieved then the post is added to the hashmap of posts
 		int newId = comment.getId();
 		posts.put(newId, comment);
@@ -419,8 +415,9 @@ public class SocialMedia implements SocialMediaPlatform {
 			throw new NotActionablePostException();
 		}
 
+
 		// A method from Post should generate a string builder of its details and its childrens
-		StringBuilder postChildrenDetails = post.showChildren(0);
+		StringBuilder postChildrenDetails = ((ActionablePost)post).showChildren(0);
 		// The string builder is returned
 		return postChildrenDetails;
 	}
@@ -443,7 +440,7 @@ public class SocialMedia implements SocialMediaPlatform {
 	@Override
 	public int getTotalOriginalPosts() {
 		// The number of orignal posts is retrieved from the Post class and then returned
-		int numberOfPosts = Post.numberPosts;
+		int numberOfPosts = OriginalPost.numberOriginalPosts;
 		return numberOfPosts;
 	}
 
@@ -454,7 +451,7 @@ public class SocialMedia implements SocialMediaPlatform {
 	@Override
 	public int getTotalEndorsmentPosts() {
 		// The number of endorsements is retrieved from the Endorsement class and then returned
-		int numberOfEndorsements = Endorsement.numberPosts;
+		int numberOfEndorsements = Endorsement.numberEndorsements;
 		return numberOfEndorsements;
 	}
 
@@ -465,7 +462,7 @@ public class SocialMedia implements SocialMediaPlatform {
 	@Override
 	public int getTotalCommentPosts() {
 		// The number of comments is retrieved from the Comment class and then returned
-		int numberOfComments = Comment.numberPosts;
+		int numberOfComments = Comment.numberComments;
 		return numberOfComments;
 	}
 
@@ -484,9 +481,9 @@ public class SocialMedia implements SocialMediaPlatform {
 		for(int id: ids){
 			// The ith post is retrieved and then compared to the max number of endorsements
 			Post currentPost = posts.get(id);
-			if(currentPost.getNumberOfEndorsements() >= maxEndorsements){
+			if(((ActionablePost)currentPost).getNumberOfEndorsements() >= maxEndorsements){
 				// If a new max number of endorsements is found the number is updated and the most endorsed id is updated
-				maxEndorsements = currentPost.getNumberOfEndorsements();
+				maxEndorsements = ((ActionablePost)currentPost).getNumberOfEndorsements();
 				mostEndorsedId = id;
 			}
 		}
