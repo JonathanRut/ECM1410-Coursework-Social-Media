@@ -119,7 +119,7 @@ public abstract class ActionablePost extends Post {
      * This method removes a comment from the comments list
      * @param comment the comment to be removed
      */
-    public void removeComment(Comment comment){
+    public void removeComment(EmptyPost comment){
         // this for loop iterates through each element in the comments list
         int index = -1;
         for(int i = 0; i < comments.size(); i++){
@@ -139,7 +139,7 @@ public abstract class ActionablePost extends Post {
         }
         // For each Comment in the comments list, the link to the post is removed 
         for(Comment comment : comments){
-            comment.setCommentedPost(null);
+            comment.setCommentedPost(new EmptyPost());
         }
         //this removes the post from the account it was posted from
         poster.removePost(this);

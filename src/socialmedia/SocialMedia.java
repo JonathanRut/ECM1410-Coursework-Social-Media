@@ -17,17 +17,17 @@ public class SocialMedia implements SocialMediaPlatform {
 	 * A {@link HashMap} is used here to store key value pairs with the keys of type {@link Integer} and values of type {@link Post}
 	 * This provides a way of getting Posts based of IDs
 	 */
-	public static HashMap<Integer, Post> posts = new HashMap<Integer, Post>();
+	public HashMap<Integer, Post> posts = new HashMap<Integer, Post>();
 	/**
 	 * A {@link HashMap} is used here to store key value pairs with the keys of type {@link String} and values of type {@link Account}
 	 * This provides a way of getting Accounts based of their handles
 	 */
-	public static HashMap<String, Account> accountsByHandle = new HashMap<String, Account>();
+	public HashMap<String, Account> accountsByHandle = new HashMap<String, Account>();
 	/**
 	 * A {@link HashMap} is used here to store key value pairs with the keys of type {@link Integer} and values of type {@link Account}
 	 * This provides a way of getting Accounts based of their ids
 	 */
-	public static HashMap<Integer, Account> accountsById = new HashMap<Integer, Account>();
+	public HashMap<Integer, Account> accountsById = new HashMap<Integer, Account>();
 
 	static public void main(String[] args) throws Exception{
 		SocialMedia socialMedia = new SocialMedia();
@@ -68,23 +68,9 @@ public class SocialMedia implements SocialMediaPlatform {
 		System.out.println(socialMedia.getTotalCommentPosts());
 	}
 
-	/**
-	 * This methods is used to create an account with a given handle
-	 * @param handle The handle of the account to be created
-	 * @throws IllegalHandleException if the handle already exists in the platform.
-	 * @throws InvalidHandleException if the handle is empty or has more than 30 characters or contains whitespaces
-	 * @return The id of the new account
-	 */
 	@Override
 	public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
-		// This if statement checks if the handle already exists in social media an throws the exception if it does
-		if(accountsByHandle.get(handle) != null){
-			throw new IllegalHandleException();
-		}
-		// This if statement checks if the handle is empty, has more than 30 characters or contains whitespaces and throws the exception if it does
-		if(handle.equals("") || handle.length() > 30 || handle.contains(" ")){
-			throw new InvalidHandleException();
-		}
+		isLegalHandle(handle);
 		// A new account object is created and instatiated
 		Account newAccount = new Account(handle);
 		// The id is retrieved from the account and used along with the account handle to add the account to the the hashmaps
@@ -95,25 +81,17 @@ public class SocialMedia implements SocialMediaPlatform {
 		return id;
 	}
 
-	/**
-	 * This method creates and account with a given handle and description
-	 * @param handle The handle of the account to be created
-	 * @param description The description of the account to be created
-	 * @throws IllegalHandleException if the handle already exists in the platform.
-	 * @throws InvalidHandleException if the handle is empty or has more than 30 characters or contains whitespaces
-	 * @return The id of the new account
-	 */
-	@Override
-	public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
+	private boolean isLegalHandle(String handle) throws IllegalHandleException{
 		// This if statement checks if the handle already exists in social media an throws the exception if it does
 		if(accountsByHandle.get(handle) != null){
-			throw new IllegalHandleException();
+			throw new IllegalHandleException("Handle already exists in the system");
 		}
-		// This if statement checks if the handle is empty, has more than 30 characters or contains whitespaces and throws the exception if it does
-		if(handle.equals("") || handle.length() > 30 || handle.contains(" ")){
-			throw new InvalidHandleException();
-		}
+		return true;
+	}
 
+	@Override
+	public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
+		isLegalHandle(handle);
 		// A new account is made with the given handle and description
 		Account newAccount = new Account(handle,description);
 		// The id is retrieved from the account and used along with the account handle to add the account to the the hashmaps
@@ -124,18 +102,9 @@ public class SocialMedia implements SocialMediaPlatform {
 		return id;
 	}
 
-	/**
-	 * This methods deletes an account based of a given id
-	 * @param id The id of the account to be deleted
-	 * @throws AccountIDNotRecognisedException if the account does not match any id in the system
-	 */
 	@Override
 	public void removeAccount(int id) throws AccountIDNotRecognisedException {
-		// This if statement checks if there is an account with the given id in the system if there isn't the exception is thrown
-		if(accountsById.get(id) == null){
-			throw new AccountIDNotRecognisedException();
-		}
-
+		isRecognisedAccountID(id);
 		// The account to be deleted is retrieved and removed from the hashmaps using it's id and handle
 		Account deleteAccount = accountsById.get(id);
 		accountsById.remove(id);
@@ -152,17 +121,17 @@ public class SocialMedia implements SocialMediaPlatform {
 		deleteAccount.delete();
 	}
 
-	/**
-	 * This method deletes an account based of a given handle
-	 * @param handle The handle of the account to be deleted
-	 * @throws HandleNotRecognisedException if the handle doesn't match to any account in the system
-	 */
+	private boolean isRecognisedAccountID(int id) throws AccountIDNotRecognisedException{
+		// This if statement checks if there is an account with the given id in the system if there isn't the exception is thrown
+		if(accountsById.get(id) == null){
+			throw new AccountIDNotRecognisedException("Account with given id does not exist in the system");
+		}
+		return true;
+	}
+
 	@Override
 	public void removeAccount(String handle) throws HandleNotRecognisedException {
-		// This if statements checks if there is an account with the given handle in the system if there isn't the exception is thrown
-		if(accountsByHandle.get(handle) == null){
-			throw new HandleNotRecognisedException();
-		}
+		isRecognisedHandle(handle);
 		// The account to be deleted is retrieved and removed from the hashmaps using it's id and handle
 		Account deleteAccount = accountsByHandle.get(handle);
 		accountsByHandle.remove(handle);
@@ -179,30 +148,19 @@ public class SocialMedia implements SocialMediaPlatform {
 		deleteAccount.delete();
 	}
 
-	/**
-	 * This method is used to change the handle of an account
-	 * @param oldHandle The old hanlde of the account to be edited
-	 * @param newHandle	The new handle of the account to be edited
-	 * @throws HandleNotRecognisedException if the old handle doesn't match to any account in the system
-	 * @throws IllegalHandleException if the new handle already is used for another account in the system
-	 * @throws InvalidHandleException if the new handle is empty or has more than 30 characters or contains whitespaces
-	 */
+	private boolean isRecognisedHandle(String handle) throws HandleNotRecognisedException{
+		// This if statement checks if there is an account with the given id in the system if there isn't the exception is thrown
+		if(accountsByHandle.get(handle) == null){
+			throw new HandleNotRecognisedException("Account with given handle does not exist in the system");
+		}
+		return true;
+	}
+
 	@Override
 	public void changeAccountHandle(String oldHandle, String newHandle)
 			throws HandleNotRecognisedException, IllegalHandleException, InvalidHandleException {
-		// This if statement checks if there is an account to match to the old handle, if there isn't the exception is thrown
-		if(accountsByHandle.get(oldHandle) == null){
-			throw new HandleNotRecognisedException();
-		}
-		// This if statement checks if there is an account in the system already with the new handle, if there is the exception is thrown
-		if(accountsByHandle.get(newHandle) != null){
-			throw new IllegalHandleException();
-		}
-		// This if statement check for is the new handle is empty or has more than 30 characters or contains whitespaces, if it is then the exception is thrown
-		if(newHandle.equals("") || newHandle.length() > 30 || newHandle.contains(" ")){
-			throw new InvalidHandleException();
-		}
-
+		isRecognisedHandle(oldHandle);
+		isLegalHandle(newHandle);
 		// The account to be updated is retrieved from the hashmap
 		Account account = accountsByHandle.get(oldHandle);
 		// The handle of the account is updated
@@ -212,59 +170,26 @@ public class SocialMedia implements SocialMediaPlatform {
 		accountsByHandle.put(newHandle, account);
 	}
 
-	/**
-	 * This method updates the description of an account with a given handle
-	 * @param handle The handle of the account whose description is to be updated
-	 * @param description The new description to be set to the account
-	 * @throws HandleNotRecognisedException if the handle doesn't match to any account in the system
-	 */
 	@Override
 	public void updateAccountDescription(String handle, String description) throws HandleNotRecognisedException {
-		// This if statement checks if there is an account to match to the handle, if there isn't the exception is thrown
-		if(accountsByHandle.get(handle) == null){
-			throw new HandleNotRecognisedException();
-		}
-
+		isRecognisedHandle(handle);
 		// The account to be updated is retrieved and its new desciprion is set
 		Account account = accountsByHandle.get(handle);
 		account.setDescription(description);
 	}
-	/**
-	 * This method shows an account and returns a string of information about the account
-	 * @param handle the handle of the account being shown
-	 * @throws HandleNotRecognisedException if the handle doesn't match to any account in the system
-	 * @return A string of information about the account
-	 */
+
 	@Override
 	public String showAccount(String handle) throws HandleNotRecognisedException {
-		// This if statement checks if there is an account to match to the handle, if there isn't the exception is thrown
-		if(accountsByHandle.get(handle) == null){
-			throw new HandleNotRecognisedException();
-		}
+		isRecognisedHandle(handle);
 		// The account related to the handle is found
 		Account account = accountsByHandle.get(handle);
 		// The information about the account is returned
 		return account.toString();
 	}
 
-	/**
-	 * This method creates a post with a given message from a account with a given handle
-	 * @param handle The handle of the account creating the post
-	 * @param message The message of the post being created
-	 * @throws HandleNotRecognisedException if the handle doesn't match to an account in the system
-	 * @throws InvalidPostException if the post is empty or more than 100 character
-	 * @return the id of the post created
-	 */
 	@Override
 	public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
-		// This if statement checks if there is a account matching to the handle in the system, if not the the exception is thrown
-		if(accountsByHandle.get(handle) == null){
-			throw new HandleNotRecognisedException();
-		}
-		// This if statement checks if the message is empty or contains more than 100 characters, if it does then the exception is thrown
-		if(message.equals("") || message.length() > 100){
-			throw new InvalidPostException();
-		}
+		isRecognisedHandle(handle);
 		// The account posting the post is retrived from the hashmap
 		Account poster = accountsByHandle.get(handle);
 		// The new post is created with the poster account and message of the post
@@ -276,26 +201,11 @@ public class SocialMedia implements SocialMediaPlatform {
 		return id;
 	}
 
-	/**
-	 * This method created a endorsement of a post with the given id
-	 * @param handle The handle of the account posting the endorsement
-	 * @param id The id of the post being endorsed
-	 * @throws HandleNotRecognisedException if the handle doesn't match to an account in the system
-	 * @throws PostIDNotRecognisedException if the id doesn't match to an post in the system
-	 * @throws NotActionablePostException if the id refers to an endorsement post
-	 * @return the id of the new endorsement
-	 */
 	@Override
 	public int endorsePost(String handle, int id)
 			throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
-		// This if statement checks if there is a account matching to the handle in the system, if not the the exception is thrown
-		if(accountsByHandle.get(handle) == null){
-			throw new HandleNotRecognisedException();
-		}
-		// This if statement checks if there is a post matching to the id in the system, if not the the exception is thrown
-		if(posts.get(id) == null){
-			throw new PostIDNotRecognisedException();
-		}
+		isRecognisedHandle(handle);
+		isRecognisedPostID(id);
 		
 		// The post getting endorsed is retrieved an then checked to see if it is an endorsement
 		// If it is an endorsement then the exception is thrown
@@ -315,43 +225,25 @@ public class SocialMedia implements SocialMediaPlatform {
 		return newId;
 	}
 
-	/**
-	 * This method is used to create a comment post
-	 * @param handle The hanlde of the account posting the comment
-	 * @param id The id of the post being commented on
-	 * @param message The message of the comment
-	 * @throws HandleNotRecognisedException if the handle doesn't match to an account in the system
-	 * @throws PostIDNotRecognisedException if the id doesn't match to a post in the system
-	 * @throws NotActionablePostException if the id refers to an endorsement
-	 * @throws InvalidPostException if the comment message is empty or longer than 100 characters
-	 */
+	private boolean isRecognisedPostID(int id) throws PostIDNotRecognisedException{
+		// This if statement checks if there is a post matching to the id in the system, if not the the exception is thrown
+		if(posts.get(id) == null){
+			throw new PostIDNotRecognisedException("No Post in the system with given ID");
+		}
+		return true;
+	}
+
 	@Override
 	public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException,
 			PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {	
-		// This if statement checks for if an account matches to the handle if it doesn't then the exception is thrown	
-		if(accountsByHandle.get(handle)==null){
-			throw new HandleNotRecognisedException();
-		}
-		// This if statement checks for if a post matches to the id if it doesn't then the exception is thrown	
-		if(posts.get(id)==null){
-			throw new PostIDNotRecognisedException();
-		}
+		isRecognisedHandle(handle);
+		isRecognisedPostID(id);
 
-		// The post being commented on is checked to see if it is an endorsement if it is then the exception is thrown
 		Post post = posts.get(id);
-		if(post instanceof Endorsement){
-			throw new NotActionablePostException();
-		}
-
-		// This if statement checks if the message is empty or has more than 100 characters if it does then the exception is thrown
-		if(message.equals("") || message.length() > 100){
-			throw new InvalidPostException();
-		}
-		
 		// The account posting the comment is retrieved
 		Account account = accountsByHandle.get(handle);
 		// The comment is created with the poster the post being commented and the message of the post
-		Comment comment = new Comment(account, (ActionablePost)post, message);
+		Comment comment = new Comment(account, post, message);
 		// The post id is retrieved then the post is added to the hashmap of posts
 		int newId = comment.getId();
 		posts.put(newId, comment);
@@ -359,73 +251,36 @@ public class SocialMedia implements SocialMediaPlatform {
 		return newId;
 	}
 
-	/**
-	 * This methods is used to delete posts
-	 * @param id The id of the post to be deleted
-	 * @throws PostIDNotRecognisedException if the id doesn't match to a post in the system
-	 */
 	@Override
 	public void deletePost(int id) throws PostIDNotRecognisedException {
-		// This if statement checks for if the id matches to a post in the hashmap
-		if(posts.get(id)==null){
-			throw new PostIDNotRecognisedException();
-		}
-		
+		isRecognisedPostID(id);
 		// The post to be deleted is retrieved
 		Post deletePost = posts.get(id);
 		// The post is removed from the hashmap of posts then deleted
 		posts.remove(id);
 		deletePost.delete();
 	}
-	/**
-	 * @param id the id of the post that the information is about
-	 * @throws PostIDNotRecognisedException if the id doesn't match to a post in the system
-	 * @return a string of information about the account
-	 */
+
 	@Override
 	public String showIndividualPost(int id) throws PostIDNotRecognisedException {
-		// This if statement checks for if the id matches to a post in the hashmap
-		if(posts.get(id)==null){
-			throw new PostIDNotRecognisedException();
-		}
+		isRecognisedPostID(id);
 		// The IndividualPost related to the handle is found
 		Post post = posts.get(id);
 		// The information about the IndividualPost is returned
 		return post.toString();
 	}
 
-	/**
-	 * This methods makes a string builder of a post details and the childrens detials for a given post id
-	 * @param id The post for the string builder to be generated from
-	 * @throws PostIDNotRecognisedException if the id doesn't match to a post in the system
-	 * @throws NotActionablePostException if the id refers to an endorsement
-	 * @return the string builder of the post and its children 
-	 */
 	@Override
 	public StringBuilder showPostChildrenDetails(int id)
 			throws PostIDNotRecognisedException, NotActionablePostException {
-		// This if statement checks for if the id matches to a post in the hashmap
-		if(posts.get(id)==null){
-			throw new PostIDNotRecognisedException();
-		}
-
-		// The post having the strinbg builder genereted on is checked to see if it is an endorsement if it is then the exception is thrown
+		isRecognisedPostID(id);
 		Post post = posts.get(id);
-		if(post instanceof Endorsement){
-			throw new NotActionablePostException();
-		}
-
-
 		// A method from Post should generate a string builder of its details and its childrens
 		StringBuilder postChildrenDetails = ((ActionablePost)post).showChildren(0);
 		// The string builder is returned
 		return postChildrenDetails;
 	}
 
-	/**
-	 * This method get the total number of accounts on the social media
-	 * @return the number of account on the social media
-	 */
 	@Override
 	public int getNumberOfAccounts() {
 		// The number of accounts is retrieved from the account class then returned
@@ -433,10 +288,6 @@ public class SocialMedia implements SocialMediaPlatform {
 		return numberOfAccounts;
 	}
 
-	/**
-	 * This method gets the total number of original posts on the social media
-	 * @return the number of original posts on the social media
-	 */
 	@Override
 	public int getTotalOriginalPosts() {
 		// The number of orignal posts is retrieved from the Post class and then returned
@@ -444,10 +295,6 @@ public class SocialMedia implements SocialMediaPlatform {
 		return numberOfPosts;
 	}
 
-	/**
-	 * This method gets the total number of endorsement posts on the the social media
-	 * @return the number of endorsement posts on the social media
-	 */
 	@Override
 	public int getTotalEndorsmentPosts() {
 		// The number of endorsements is retrieved from the Endorsement class and then returned
@@ -455,10 +302,6 @@ public class SocialMedia implements SocialMediaPlatform {
 		return numberOfEndorsements;
 	}
 
-	/**
-	 * This method gets the total number of comments on the social media
-	 * @return the number of comments on the socail media
-	 */
 	@Override
 	public int getTotalCommentPosts() {
 		// The number of comments is retrieved from the Comment class and then returned
@@ -466,10 +309,6 @@ public class SocialMedia implements SocialMediaPlatform {
 		return numberOfComments;
 	}
 
-	/**
-	 * This method gets the id of the most endorsed post in the system
-	 * @return the id of the most endorsed post in the system
-	 */
 	@Override
 	public int getMostEndorsedPost() {
 		// The set of ids is retrieved from the hashmaps of posts
@@ -491,10 +330,6 @@ public class SocialMedia implements SocialMediaPlatform {
 		return mostEndorsedId;
 	}
 
-	/**
-	 * This method gets the id of the account with the most endorsements on their posts
-	 * @return the id of the most endorsed account
-	 */
 	@Override
 	public int getMostEndorsedAccount() {
 		// The set of account id is retrived from the accounts by id hashmap

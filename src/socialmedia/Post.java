@@ -1,15 +1,10 @@
 package socialmedia;
 
-public abstract class Post {
+public abstract class Post extends EmptyPost {
     /**
      * A protected constant {@link Integer} used to store the id of a post this is unique to the post
      */
     protected final int ID;
-
-    /**
-     * A protected variable {@link String} used to store the message for the post
-     */
-    protected String message;
 
     /**
      * A protected variable {@link Account} used to store the account who posted the post
@@ -34,14 +29,6 @@ public abstract class Post {
         return this.ID;
     }
 
-    /**
-     * This method gets the message and then returns the mesage of the post
-     * @return the message of the message
-     */
-    public String getMessage(){
-        return this.message;
-    }
-
     @Override
     public abstract String toString();
 
@@ -58,5 +45,20 @@ public abstract class Post {
     public void resetCounters(){
         currentId=0;
     } 
+
+    protected boolean isValidMessage(String message) throws InvalidPostException{
+        // This if statement checks if the message is empty or contains more than 100 characters, if it does then the exception is thrown
+		if(message.equals("") || message.length() > 100){
+			throw new InvalidPostException("Message must not be empty and be shorter than 100 characters");
+		}
+        return true;
+    }
+
+    protected boolean isActionable(Post post) throws NotActionablePostException{
+        if(!(post instanceof ActionablePost)){
+			throw new NotActionablePostException("Post cannot be acted upon");
+		}
+        return true;
+    }
      
 }

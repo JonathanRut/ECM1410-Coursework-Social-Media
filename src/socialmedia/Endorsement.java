@@ -20,16 +20,18 @@ public class Endorsement extends Post{
      * @param poster the account that is endorsing the post
      * @param endorsedPost the post that is being endorsed
      */
-    public Endorsement(Account poster, ActionablePost endorsedPost){
+    public Endorsement(Account poster, Post endorsedPost) throws NotActionablePostException{
         //TODO
         // Use the constructor of the super class to set the poster and the mesage of the endorsedpost
         super();
+        isActionable(endorsedPost);
+
         // The post being endorsed gets set
-        this.endorsedPost = endorsedPost;
+        this.endorsedPost = (ActionablePost)endorsedPost;
         this.poster = poster;
         this.message = endorsedPost.message;
         // The endorsement gets added to the originals post endorsements list
-        endorsedPost.addEndorsement(this);
+        ((ActionablePost)endorsedPost).addEndorsement(this);
         // Getting the account that is being endorsed and increment the number of endorsements by 1
         Account endorsedAccount = endorsedPost.getPoster();
         endorsedAccount.incrementEndorsements();

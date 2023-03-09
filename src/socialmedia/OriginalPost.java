@@ -17,8 +17,9 @@ public class OriginalPost extends ActionablePost{
      * @param poster is the account that has posted the post
      * @param message is the message that the account has written in the post
      */
-    public OriginalPost(Account poster, String message){
+    public OriginalPost(Account poster, String message) throws InvalidPostException{
         super();
+        isValidMessage(message);
         this.poster = poster;
         this.message = message;
         numberOriginalPosts++;
