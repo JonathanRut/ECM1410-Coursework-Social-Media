@@ -44,11 +44,10 @@ public class Account {
 
     /**
      * This constructor makes an Account with a given handle
-     * 
      * @param handle The handle which will be given to the account
+     * @throws InvalidHandleException when trying to assign an invalid handle
      */
     public Account(String handle) throws InvalidHandleException {
-        //TODO
         isValidHandle(handle);
         // The accounts handle, id and description are set
         this.handle = handle;
@@ -57,19 +56,15 @@ public class Account {
         // Then the counters are incremented by 1
         currentId++;
         numberAccounts++;
-
-
-        
     }
 
     /**
      * This constructor makes an Account with a given handle and description
-     * 
      * @param handle The hadle which will be given to the account
      * @param description The description which will be given to the account
+     * @throws InvalidHandleException when trying to assign an invalid handle
      */
     public Account(String handle, String description) throws InvalidHandleException{
-        //TODO
         isValidHandle(handle);
         // The accounts handle, id and description are set
         this.handle = handle;
@@ -82,7 +77,6 @@ public class Account {
 
     /**
      * Gets the handle of an account
-     * 
      * @return the handle of an account
      */
     public String getHandle(){
@@ -91,11 +85,10 @@ public class Account {
 
     /**
      * Sets the handle of an account
-     * 
      * @param handle the new handle of an account to be set
+     * @throws InvalidHandleException when trying to assign an invalid handle
      */
     public void setHandle(String handle) throws InvalidHandleException {
-        //TODO
         // This if statement check for is the new handle is empty or has more than 30 characters or contains whitespaces, if it is then the exception is thrown
 		isValidHandle(handle);
         this.handle = handle;
@@ -103,8 +96,7 @@ public class Account {
 
     /**
      * Gets the id of an account
-     * 
-     * @return the id of an account
+     *  @return the id of an account
      */
     public int getId(){
         return this.ID;
@@ -112,7 +104,6 @@ public class Account {
 
     /**
      * Gets the description of an account
-     * 
      * @return the description of an account
      */
     public String getDescription(){
@@ -121,8 +112,7 @@ public class Account {
 
     /**
      * Sets the description of an account
-     * 
-     * @param description the new description to be set
+     *  @param description the new description to be set
      */
     public void setDescription(String description) {
         this.description = description;
@@ -130,7 +120,6 @@ public class Account {
 
     /**
      * Gets the number of endorsements an account has received on posts
-     * 
      * @return the number of endorsements an account has received on posts
      */
     public int getEndorsements(){
@@ -152,9 +141,10 @@ public class Account {
     }
 
     /**
-     * Deletes an account by deleting its posts and decrementing the counter
+     * Deletes an account
      */
     public void delete() {
+        // A new variable is created for asserting the account was deleted
         int originalNumberOfAccounts = numberAccounts;
         // The for loops goes through the accounts posts and calls their delete method
         for(Post post : posts){
@@ -162,13 +152,12 @@ public class Account {
         }
         // The number of accounts is decremented by 1
         numberAccounts--;
-
+        // Assertion checks that the post condition is met and if it is not met then it throws an exception
         assert (posts.size()==0 && originalNumberOfAccounts-1==numberAccounts):"Account not deleted successfully";
     }
 
     /**
      * Gets the list of posts that an account has posted
-     * 
      * @return the posts an account has posted
      */
     public ArrayList<Post> getPosts(){
@@ -185,7 +174,6 @@ public class Account {
 
     /**
      * Adds a given post to an accounts list of posts
-     * 
      * @param post the post to be added to an accounts list of posts
      */
     public void addPost(Post post){
@@ -194,7 +182,6 @@ public class Account {
 
     /** 
      * Removes a post from an accounts list of posts
-     * 
      * @param post the post to be removed from the list of posts
      */
     public void removePost(Post post){
@@ -207,7 +194,7 @@ public class Account {
         }
         // The post is removed using this ID
         posts.remove(index);
-
+        // Assertion checks that the post condition is met and if it is not met then it throws an exception
         assert (index>0):"Post not removed successfully";
     }
     /**
@@ -226,7 +213,12 @@ public class Account {
         // The information is returned as a string
         return stringBuilder.toString();
     }
-
+    /**
+     * This method checks if the handle is valid
+     * @param handle the handle being checked
+     * @return true if the handle is valid
+     * @throws InvalidHandleException when trying to assign an invalid handle 
+     */
     private boolean isValidHandle(String handle) throws InvalidHandleException{
         // This if statement check for is the new handle is empty or has more than 30 characters or contains whitespaces, if it is then the exception is thrown
 		if(handle.equals("") || handle.length() > 30 || handle.contains(" ")){

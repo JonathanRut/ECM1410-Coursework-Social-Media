@@ -32,19 +32,19 @@ public class OriginalPost extends ActionablePost{
      * This method deletes the post and then removes it from the arraylist and decreases the numberPosts counter by 1
      */
     public void delete(){
+        // A new variable is created for asserting the OriginalPost was deleted
         int numberofOriginalOriginalPosts = numberOriginalPosts;
         super.delete();
         // this decreases the numberPosts counter by 1
         numberOriginalPosts--;
-
-        assert(numberofOriginalOriginalPosts - 1 == numberOriginalPosts):"Original post not deleted successfully";
+        // Assertion checks that the post condition is met and if it is not met then it throws an exception
+        assert (numberofOriginalOriginalPosts - 1 == numberOriginalPosts):"Original post not deleted successfully";
     }
 
     @Override
-    /**
-     * Resets the static counters for post
-     */
+    
     public void resetCounters(){
+        // resets the counters for OriginalPosts
         super.resetCounters();
         numberOriginalPosts = 0;
         
