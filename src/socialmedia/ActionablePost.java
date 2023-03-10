@@ -18,6 +18,10 @@ public abstract class ActionablePost extends Post {
      * @return the string of information about the post 
      */
     public String toString(int indent){
+        if(indent < 0){
+            throw new IllegalArgumentException("Indent cannot be less than 0");
+        }
+
         // A new StringBuilder is created and then information about the Individual post is appended to it
         StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(" ".repeat((indent - 1) * 4) + "| > ").append("ID: ").append(ID).append("\n");
@@ -35,6 +39,9 @@ public abstract class ActionablePost extends Post {
      * @return A string builder of the children posts
      */
     public StringBuilder showChildren(int indent){
+        if(indent < 0){
+            throw new IllegalArgumentException("Indent cannot be less than 0");
+        }
         // A new string builder is instantiated
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -91,6 +98,7 @@ public abstract class ActionablePost extends Post {
      */
     public void addEndorsement(Endorsement endorsement){
         endorsements.add(endorsement);
+        assert (endorsements.contains(endorsement)) : "Endorsement not added sucessfully";
     }
     /**
      * This method adds a comment to the comments list
@@ -98,6 +106,7 @@ public abstract class ActionablePost extends Post {
      */
     public void addComment(Comment comment){
         comments.add(comment);
+        assert (comments.contains(comment)) : "Comment not added sucessfully";
     }
     /**
      * This method removes an endorsement from the endorsements list 
@@ -114,6 +123,8 @@ public abstract class ActionablePost extends Post {
         }
         // this removes the endorsement from the endorsement list
         endorsements.remove(index);
+
+        assert (index > 0) : "Endoresment not removed sucessfully";
     }
     /**
      * This method removes a comment from the comments list
@@ -130,6 +141,8 @@ public abstract class ActionablePost extends Post {
         }
         // this removes the comments from the comments list
         comments.remove(index);
+
+        assert (index > 0) : "Comment not removed sucessfully";
     }
     @Override
     public void delete(){
@@ -143,6 +156,8 @@ public abstract class ActionablePost extends Post {
         }
         //this removes the post from the account it was posted from
         poster.removePost(this);
+
+        assert (endorsements.size() == 0 && comments.size() == 0 && !poster.getPosts().contains(this)) : "Post not deleted sucessfully";
     }
 
 }
