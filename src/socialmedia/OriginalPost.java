@@ -32,9 +32,12 @@ public class OriginalPost extends ActionablePost{
      * This method deletes the post and then removes it from the arraylist and decreases the numberPosts counter by 1
      */
     public void delete(){
+        int numberofOriginalOriginalPosts = numberOriginalPosts;
         super.delete();
         // this decreases the numberPosts counter by 1
         numberOriginalPosts--;
+
+        assert(numberofOriginalOriginalPosts - 1 == numberOriginalPosts):"Original post not deleted successfully";
     }
 
     @Override

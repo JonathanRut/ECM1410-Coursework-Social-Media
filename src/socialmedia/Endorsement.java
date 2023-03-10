@@ -43,13 +43,17 @@ public class Endorsement extends Post{
      */
     @Override
     public void delete(){
+        int numberOfOriginalEndorsements = numberEndorsements;
+        Account endorsedAccount = endorsedPost.getPoster();
+        int numberOfOriginalEndorsementAccount = endorsedAccount.getEndorsements();
         // Removing the endorsement from the endorsed posts endorsements list
         endorsedPost.removeEndorsement(this);
         // Decrementing the number of endorsements by 1
         numberEndorsements--;
         // Getting the accoubnt that is being endorsed and decrement the number of endorsements by 1
-        Account endorsedAccount = endorsedPost.getPoster();
         endorsedAccount.decrementEndorsements();
+
+        assert (numberOfOriginalEndorsements -1 == numberEndorsements && !endorsedPost.endorsements.contains(this) && numberOfOriginalEndorsementAccount -1 == endorsedAccount.getEndorsements()):"Endorsement not deleted successfully";
     }
 
     @Override

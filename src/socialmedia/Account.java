@@ -57,6 +57,8 @@ public class Account {
         // Then the counters are incremented by 1
         currentId++;
         numberAccounts++;
+
+
         
     }
 
@@ -153,12 +155,15 @@ public class Account {
      * Deletes an account by deleting its posts and decrementing the counter
      */
     public void delete() {
+        int originalNumberOfAccounts = numberAccounts;
         // The for loops goes through the accounts posts and calls their delete method
         for(Post post : posts){
             post.delete();
         }
         // The number of accounts is decremented by 1
         numberAccounts--;
+
+        assert (posts.size()==0 && originalNumberOfAccounts-1==numberAccounts):"Account not deleted successfully";
     }
 
     /**
@@ -202,6 +207,8 @@ public class Account {
         }
         // The post is removed using this ID
         posts.remove(index);
+
+        assert (index>0):"Post not removed successfully";
     }
     /**
      * This method returns a string of information about the account

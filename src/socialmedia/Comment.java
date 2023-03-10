@@ -50,6 +50,8 @@ public class Comment extends ActionablePost{
         ((ActionablePost)commentedPost).removeComment(this);
         // the link to the original post is removed
         commentedPost = new EmptyPost();
+
+        assert (commentedPost.getMessage().equals("The original content was removed from the system and is no longer available.")):"Comment not successfully deleted";
     }
 
     @Override

@@ -8,7 +8,7 @@ public class EmptyPost {
         this.message = "The original content was removed from the system and is no longer available.";
     }
     
-    public String getMessaage() {
+    public String getMessage() {
         return message;
     }
 }
