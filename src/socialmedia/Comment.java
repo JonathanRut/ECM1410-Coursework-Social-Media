@@ -19,9 +19,10 @@ public class Comment extends ActionablePost{
      * @param poster the account of the commenter
      * @param commentedPost the post that the commenter is posting the comment in
      * @param message the message the comment contains
+     * @throws InvalidPostException when trying to create an invalid post
+     * @throws NotActionablePostException when trying to act upon an non-actionable post
      */
     public Comment(Account poster, Post commentedPost, String message) throws InvalidPostException, NotActionablePostException{
-        //TODO
         // Use the constructor of the super class to partially initiliase the comment
         super();
         isValidMessage(message);
@@ -53,6 +54,8 @@ public class Comment extends ActionablePost{
         ((ActionablePost)commentedPost).removeComment(this);
         // the link to the original post is removed
         commentedPost = new EmptyPost();
+        // Assertion checks that the post condition is met and if it is not met then it throws an exception
+        assert (commentedPost.getMessage().equals("The original content was removed from the system and is no longer available.")):"Comment not successfully deleted";
     }
 
     /**

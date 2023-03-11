@@ -35,6 +35,7 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
+		// A new variable is created for asserting the account was created
 		int originalNumberOfAccounts = getNumberOfAccounts();
 		isLegalHandle(handle);
 		// A new account object is created and instatiated
@@ -43,17 +44,16 @@ public class SocialMedia implements SocialMediaPlatform {
 		int id = newAccount.getId();
 		accountsByHandle.put(handle, newAccount);
 		accountsById.put(id, newAccount);
-
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (originalNumberOfAccounts + 1 == getNumberOfAccounts()) : "Account not created sucessfully";
-
 		// The id of new account is returned
 		return id;
 	}
 
 	@Override
 	public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
+		// A new variable is created for asserting the account was created
 		int originalNumberOfAccounts = getNumberOfAccounts();
-
 		isLegalHandle(handle);
 		// A new account is made with the given handle and description
 		Account newAccount = new Account(handle,description);
@@ -61,15 +61,15 @@ public class SocialMedia implements SocialMediaPlatform {
 		int id = newAccount.getId();
 		accountsByHandle.put(handle, newAccount);
 		accountsById.put(id, newAccount);
-
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (originalNumberOfAccounts + 1 == getNumberOfAccounts() && description == newAccount.getDescription()) : "Account not created sucessfully";
-
 		// The id of this new account is returned
 		return id;
 	}
 
 	@Override
 	public void removeAccount(int id) throws AccountIDNotRecognisedException {
+		// A new variable is created for asserting the account was removed
 		int originalNumberOfAccounts = getNumberOfAccounts();
 		isRecognisedAccountID(id);
 		// The account to be deleted is retrieved and removed from the hashmaps using it's id and handle
@@ -86,12 +86,13 @@ public class SocialMedia implements SocialMediaPlatform {
 		}	
 		// Finally the account is deleted
 		deleteAccount.delete();
-
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (originalNumberOfAccounts - 1 == getNumberOfAccounts()) : "Account not deleted sucessfully";
 	}
 
 	@Override
 	public void removeAccount(String handle) throws HandleNotRecognisedException {
+		// A new variable is created for asserting the account was removed
 		int originalNumberOfAccounts = getNumberOfAccounts();
 		isRecognisedHandle(handle);
 		// The account to be deleted is retrieved and removed from the hashmaps using it's id and handle
@@ -108,12 +109,13 @@ public class SocialMedia implements SocialMediaPlatform {
 		}	
 		// Finally the account is deleted
 		deleteAccount.delete();
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (originalNumberOfAccounts - 1 == getNumberOfAccounts()) : "Account not deleted sucessfully";
 	}
 
 	@Override
-	public void changeAccountHandle(String oldHandle, String newHandle)
-			throws HandleNotRecognisedException, IllegalHandleException, InvalidHandleException {
+	public void changeAccountHandle(String oldHandle, String newHandle) throws HandleNotRecognisedException, 
+			IllegalHandleException, InvalidHandleException{
 		isRecognisedHandle(oldHandle);
 		isLegalHandle(newHandle);
 		// The account to be updated is retrieved from the hashmap
@@ -123,7 +125,7 @@ public class SocialMedia implements SocialMediaPlatform {
 		// The old key value pair in the hashmap of accounts by handle is removed and updated with this new handle
 		accountsByHandle.remove(oldHandle);
 		accountsByHandle.put(newHandle, account);
-
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (oldHandle != account.getHandle()) : "Handle not changed sucessfully";
 	}
 
@@ -134,7 +136,7 @@ public class SocialMedia implements SocialMediaPlatform {
 		Account account = accountsByHandle.get(handle);
 		String oldDescription= account.getDescription();
 		account.setDescription(description);
-
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (oldDescription != account.getDescription()) : "Description not changed sucessfully";
 	}
 
@@ -149,6 +151,7 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
+		// A new variable is created for asserting the post was created
 		int originalNumberOfOriginalPosts = getTotalOriginalPosts();
 		isRecognisedHandle(handle);
 		// The account posting the post is retrived from the hashmap
@@ -158,27 +161,25 @@ public class SocialMedia implements SocialMediaPlatform {
 		// The id of the post is retrieved and the post is added to the hashmaps of posts
 		int id = newPost.getId();
 		posts.put(id, newPost);
-
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (originalNumberOfOriginalPosts + 1 == getTotalOriginalPosts()) : "Original post not created sucessfully";
-
 		// The id of the new post is returned
 		return id;
 	}
 
 	@Override
-	public int endorsePost(String handle, int id)
-			throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
+	public int endorsePost(String handle, int id)	throws HandleNotRecognisedException,
+			PostIDNotRecognisedException, NotActionablePostException {
+		// A new variable is created for asserting the post was endorsed
 		int originalNumberOfEndorsements = getTotalEndorsmentPosts();
 		isRecognisedHandle(handle);
 		isRecognisedPostID(id);
-		
 		// The post getting endorsed is retrieved an then checked to see if it is an endorsement
 		// If it is an endorsement then the exception is thrown
 		Post post = posts.get(id);
 		if(post instanceof Endorsement){
 			throw new NotActionablePostException();
 		}
-
 		// The account posting the endorsement is retrieved
 		Account account = accountsByHandle.get(handle);
 		// The endorsement is created with the account posting it and the post being endorsed
@@ -186,9 +187,8 @@ public class SocialMedia implements SocialMediaPlatform {
 		// The id of this endorsement is retrieved and the endorsement is added to the hashmaps of posts
 		int newId = endorsement.getId();
 		posts.put(newId, endorsement);
-
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (originalNumberOfEndorsements + 1 == getTotalEndorsmentPosts()) : "Endorsement not created sucessfully";
-
 		// The id of the new endorsement is returned
 		return newId;
 	}
@@ -198,10 +198,10 @@ public class SocialMedia implements SocialMediaPlatform {
 	@Override
 	public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException,
 			PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
+		// A new variable is created for asserting the comment was created
 		int originalNumberOfComments = getTotalCommentPosts();
 		isRecognisedHandle(handle);
 		isRecognisedPostID(id);
-
 		Post post = posts.get(id);
 		// The account posting the comment is retrieved
 		Account account = accountsByHandle.get(handle);
@@ -210,7 +210,7 @@ public class SocialMedia implements SocialMediaPlatform {
 		// The post id is retrieved then the post is added to the hashmap of posts
 		int newId = comment.getId();
 		posts.put(newId, comment);
-
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (originalNumberOfComments + 1 == getTotalCommentPosts());
 		// The id of the new post is returned
 		return newId;
@@ -218,6 +218,7 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public void deletePost(int id) throws PostIDNotRecognisedException {
+		// A new variable is created for asserting the post was deleted
 		int originalNumberOfPosts = posts.size();
 		isRecognisedPostID(id);
 		// The post to be deleted is retrieved
@@ -225,7 +226,7 @@ public class SocialMedia implements SocialMediaPlatform {
 		// The post is removed from the hashmap of posts then deleted
 		posts.remove(id);
 		deletePost.delete();
-
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (originalNumberOfPosts - 1 == posts.size()) : "Post not deleted successfully";
 	}
 
@@ -294,7 +295,7 @@ public class SocialMedia implements SocialMediaPlatform {
 				mostEndorsedId = id;
 			}
 		}
-
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (mostEndorsedId > 0) : "Most endorsed post id not found sucessfully";
 		// Finally the id of the post is the most endorsements is returned
 		return mostEndorsedId;
@@ -317,6 +318,7 @@ public class SocialMedia implements SocialMediaPlatform {
 				mostEndorsedId = id;
 			}
 		}
+		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (mostEndorsedId > 0) : "Most endorsed account id not found sucessfully";
 		// Finally the id of the most endorsed account is returned
 		return mostEndorsedId;
@@ -371,7 +373,12 @@ public class SocialMedia implements SocialMediaPlatform {
 		}
 	}
 
-	
+	/**
+	 * This method checks if the handle is legal
+	 * @param handle the handle being checked to see if it is legal
+	 * @return true if legal
+	 * @throws IllegalHandleException when trying to assign a handle that is already being used to an account 
+	 */
 	private boolean isLegalHandle(String handle) throws IllegalHandleException{
 		// This if statement checks if the handle already exists in social media an throws the exception if it does
 		if(accountsByHandle.get(handle) != null){
@@ -379,7 +386,12 @@ public class SocialMedia implements SocialMediaPlatform {
 		}
 		return true;
 	}
-
+	/**
+	 * This method checks if the PostID is in the system
+	 * @param id the PostID being checked to see if it is in the system
+	 * @return true if it is in the system
+	 * @throws PostIDNotRecognisedException when trying to use a PostID that is not in the system
+	 */
 	private boolean isRecognisedPostID(int id) throws PostIDNotRecognisedException{
 		// This if statement checks if there is a post matching to the id in the system, if not the the exception is thrown
 		if(posts.get(id) == null){
@@ -387,7 +399,12 @@ public class SocialMedia implements SocialMediaPlatform {
 		}
 		return true;
 	}
-
+	/**
+	 * This method checks if the handle is in the system
+	 * @param handle the handle being checked to see if it system
+	 * @return true if it is in the system
+	 * @throws HandleNotRecognisedException when trying to use a handle that is not in the system
+	 */
 	private boolean isRecognisedHandle(String handle) throws HandleNotRecognisedException{
 		// This if statement checks if there is an account with the given id in the system if there isn't the exception is thrown
 		if(accountsByHandle.get(handle) == null){
@@ -395,7 +412,12 @@ public class SocialMedia implements SocialMediaPlatform {
 		}
 		return true;
 	}
-
+	/**
+	 * This method checks if the AccountID is in the system
+	 * @param id the AccountID being checked to see if it is in the system
+	 * @return true if it is in the system
+	 * @throws AccountIDNotRecognisedException when trying to use an AccountID that is not in the system
+	 */
 	private boolean isRecognisedAccountID(int id) throws AccountIDNotRecognisedException{
 		// This if statement checks if there is an account with the given id in the system if there isn't the exception is thrown
 		if(accountsById.get(id) == null){
