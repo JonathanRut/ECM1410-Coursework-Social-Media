@@ -1,6 +1,10 @@
 package socialmedia;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -28,45 +32,6 @@ public class SocialMedia implements SocialMediaPlatform {
 	 * This provides a way of getting Accounts based of their ids
 	 */
 	private HashMap<Integer, Account> accountsById = new HashMap<Integer, Account>();
-
-	static public void main(String[] args) throws Exception{
-		SocialMedia socialMedia = new SocialMedia();
-		// Createing accounts
-		socialMedia.createAccount("user1");
-		socialMedia.createAccount("user2");
-		socialMedia.createAccount("user3");
-		socialMedia.createAccount("user5");
-
-		// Createing posts
-		socialMedia.createPost("user1", "j");
-		socialMedia.createPost("user1", "I like examples.");
-		socialMedia.endorsePost("user2", 1);
-
-		// Creating comments
-		socialMedia.commentPost("user2", 1, "No more than me...");
-		socialMedia.commentPost("user3", 1, "Can't you do better than this?");
-		socialMedia.commentPost("user1", 3, "I can prove it!");
-		socialMedia.commentPost("user2", 5, "prove it");
-		socialMedia.commentPost("user5", 1, "where is the example?");
-		socialMedia.endorsePost("user1", 4);
-		socialMedia.endorsePost("user2", 4);
-		socialMedia.commentPost("user1", 7, "This is the example!");
-		socialMedia.endorsePost("user5", 4);
-		socialMedia.endorsePost("user2", 4);
-
-		/*
-			4 accounts
-		 	2 original posts
-			5 endorements
-			6 comments
-		 */
-
-		System.out.println(socialMedia.showPostChildrenDetails(1).toString());
-		System.out.println(socialMedia.getNumberOfAccounts());
-		System.out.println(socialMedia.getTotalOriginalPosts());
-		System.out.println(socialMedia.getTotalEndorsmentPosts());
-		System.out.println(socialMedia.getTotalCommentPosts());
-	}
 
 	@Override
 	public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
@@ -359,19 +324,51 @@ public class SocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public void erasePlatform() {
-		// TODO Auto-generated method stub
-
+		posts = new HashMap<Integer, Post>();
+		accountsById = new HashMap<Integer, Account>();
+		accountsByHandle = new HashMap<String, Account>();
+		Account.resetCounters();
+		Post.resetCounters();
+		OriginalPost.resetCounters();
+		Comment.resetCounters();
+		Endorsement.resetCounters();
 	}
 
 	@Override
 	public void savePlatform(String filename) throws IOException {
-		// TODO Auto-generated method stub
-
+		int accountCurrentID = Account.currentId;
+		int accountNumber = Account.numberAccounts;
+		int postCurrentID = Post.currentId;
+		int orignalPostNumber = OriginalPost.numberOriginalPosts;
+		int commentPostNumber = Comment.numberComments;
+		int endorsePostNumber = Endorsement.numberEndorsements;
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))){
+			oos.writeObject(accountCurrentID);
+			oos.writeObject(accountNumber);
+			oos.writeObject(postCurrentID);
+			oos.writeObject(orignalPostNumber);
+			oos.writeObject(commentPostNumber);
+			oos.writeObject(endorsePostNumber);
+			oos.writeObject(posts);
+			oos.writeObject(accountsById);
+			oos.writeObject(accountsByHandle);
+		}
 	}
 
+	
 	@Override
 	public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
-		// TODO Auto-generated method stub
+		try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))){
+			Account.currentId = (int)in.readObject();
+			Account.numberAccounts = (int)in.readObject();
+			Post.currentId = (int)in.readObject();
+			OriginalPost.numberOriginalPosts = (int)in.readObject();
+			Comment.numberComments = (int)in.readObject();
+			Endorsement.numberEndorsements = (int)in.readObject();
+			posts = (HashMap<Integer, Post>)in.readObject();
+			accountsById = (HashMap<Integer,Account>)in.readObject();
+			accountsByHandle = (HashMap<String, Account>)in.readObject();
+		}
 	}
 
 	

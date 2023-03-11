@@ -1,6 +1,8 @@
 package socialmedia;
 
-public class EmptyPost {
+import java.io.Serializable;
+
+public class EmptyPost implements Serializable{
     //TODO
     protected String message;
 

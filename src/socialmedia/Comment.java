@@ -11,6 +11,9 @@ public class Comment extends ActionablePost{
      * A private field {@link Actionable} that stores a post that has been commented on
      */
     private EmptyPost commentedPost;
+
+    private static final long serialVersionUID = 834344499346955094l;
+
     /**
      * A constructor that creates a new comment object
      * @param poster the account of the commenter
@@ -52,11 +55,10 @@ public class Comment extends ActionablePost{
         commentedPost = new EmptyPost();
     }
 
-    @Override
-    //TODO
-    public void resetCounters(){
-        super.resetCounters();
+    /**
+     * Resets the counters for comment
+     */
+    static public void resetCounters(){
         numberComments = 0;
     }
-
 }

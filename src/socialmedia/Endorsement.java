@@ -15,6 +15,8 @@ public class Endorsement extends Post{
     //TODO    
     public static int numberEndorsements=0;
 
+    private static final long serialVersionUID = 7475185244668276409l;
+
     /**
      * A constructor that creates a new endorsement object
      * @param poster the account that is endorsing the post
@@ -52,12 +54,11 @@ public class Endorsement extends Post{
         endorsedAccount.decrementEndorsements();
     }
 
-    @Override
-    public void resetCounters() {
-        // TODO
-        super.resetCounters();
+    /**
+     * Resets the static counters in Endorsement
+     */
+    static public void resetCounters() {
         numberEndorsements = 0;
-
     }
 
     @Override
@@ -72,4 +73,6 @@ public class Endorsement extends Post{
         // The information is returned as a string
         return stringBuilder.toString();
     }
+
+
 }

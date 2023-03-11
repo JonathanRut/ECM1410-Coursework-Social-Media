@@ -1,5 +1,6 @@
 package socialmedia;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  * @author Jonathan Rutland and Daniel Stirling Barros
  * @version 1.0
  */
-public class Account {
+public class Account implements Serializable{
     
     /**
      * A public {@link Integer} representing the number of accounts on the social media platform
@@ -16,9 +17,9 @@ public class Account {
     public static int numberAccounts = 0;
 
     /**
-     * A private {@link Integer} representing the current id for a new account
+     * A public {@link Integer} representing the current id for a new account
      */
-    private static int currentId = 0;
+    public static int currentId = 0;
 
     /**
      * A private {@link String} used to store the handle of an account this is unique to the account
@@ -40,6 +41,8 @@ public class Account {
      * A private {@link ArrayList} storing elements of type {@link Post} that represents the posts the account has made
      */
     private ArrayList<Post> posts = new ArrayList<Post>();
+
+    private static final long serialVersionUID = 7407913824743481824l;
 
 
     /**
@@ -173,7 +176,7 @@ public class Account {
     /**
      * Resets the counters for number of account and current id to their intital values
      */
-    public void resetCounters(){
+    static public void resetCounters(){
         numberAccounts = 0;
         currentId = 0;
     }

@@ -9,9 +9,12 @@ package socialmedia;
 public class OriginalPost extends ActionablePost{
     
     /**
-     * A private variable {@link Integer} that stores the number of posts on the social media platform
+     * A public variable {@link Integer} that stores the number of orginal posts on the social media platform
      */
     public static int numberOriginalPosts = 0;
+
+    private static final long serialVersionUID = 5983138584552336725l;
+
     /**
      * A public constructor that creates a new post object
      * @param poster is the account that has posted the post
@@ -37,19 +40,13 @@ public class OriginalPost extends ActionablePost{
         numberOriginalPosts--;
     }
 
-    @Override
     /**
      * Resets the static counters for post
      */
-    public void resetCounters(){
-        super.resetCounters();
+    static public void resetCounters(){
         numberOriginalPosts = 0;
-        
     }
 
-
-    
-    
 
 }
 

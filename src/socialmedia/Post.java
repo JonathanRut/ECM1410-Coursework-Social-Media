@@ -14,7 +14,9 @@ public abstract class Post extends EmptyPost {
     /**
      * A private variable {@link Integer} that stores the id of the next post to be created
      */
-    private static int currentId=0;
+    public static int currentId=0;
+
+    private static final long serialVersionUID = 5574749677956144457l;
 
     public Post(){
         this.ID = currentId;
@@ -42,7 +44,10 @@ public abstract class Post extends EmptyPost {
 
     public abstract void delete();
 
-    public void resetCounters(){
+    /**
+     * Resets the static counter shared by all posts
+     */
+    static public void resetCounters(){
         currentId=0;
     } 
 
@@ -60,5 +65,5 @@ public abstract class Post extends EmptyPost {
 		}
         return true;
     }
-     
+    
 }
