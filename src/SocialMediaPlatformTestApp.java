@@ -4,6 +4,13 @@ import socialmedia.InvalidHandleException;
 import socialmedia.SocialMedia;
 import socialmedia.SocialMediaPlatform;
 
+/*
+ * To run with assertions run in this order
+ * javac -d bin .\src\socialmedia\*.java
+ * javac -cp bin -d bin .\src\SocialMediaPlatformTestApp.java
+ * java -cp bin. -ea  SocialMediaPlatformTestApp
+ */
+
 /**
  * A short program to illustrate an app testing some minimal functionality of a
  * concrete implementation of the SocialMediaPlatform interface -- note you will
