@@ -16,7 +16,6 @@ import java.util.Set;
  * @version 1.0
  */
 public class SocialMedia implements SocialMediaPlatform {
-
 	/**
 	 * A {@link HashMap} is used here to store key value pairs with the keys of type {@link Integer} and values of type {@link Post}
 	 * This provides a way of getting Posts based of IDs
