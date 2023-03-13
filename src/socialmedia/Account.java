@@ -198,7 +198,7 @@ public class Account implements Serializable{
         // The post is removed using this ID
         posts.remove(index);
         // Assertion checks that the post condition is met and if it is not met then it throws an exception
-        assert (index>0):"Post not removed successfully";
+        assert (index>=0):"Post not removed successfully";
     }
     /**
      * This method returns a string of information about the account
@@ -212,7 +212,7 @@ public class Account implements Serializable{
 		stringBuilder.append("Handle: ").append(handle).append("\n");
 		stringBuilder.append("Description: ").append(description).append("\n");
 		stringBuilder.append("Post count: ").append(posts.size()).append("\n");
-		stringBuilder.append("Endorse count: ").append(numberOfEndorsements).append("\n");
+		stringBuilder.append("Endorse count: ").append(numberOfEndorsements);
         // The information is returned as a string
         return stringBuilder.toString();
     }

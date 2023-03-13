@@ -56,11 +56,8 @@ public abstract class ActionablePost extends Post {
         stringBuilder.append("\n");
         // This for loop iterates through the comments of the post
         for(int i = 0; i < comments.size(); i++){
-            // If it is the first comment then a bar is added at the tops
-            if(i == 0){
-                stringBuilder.append("    ".repeat(indent)+"|\n");
-            }
             // Then the deatils about the comments children is gotten from the comment with an increased indent
+            stringBuilder.append("    ".repeat(indent)+"|\n");
             stringBuilder.append(comments.get(i).showChildren(indent + 1).toString());
         }
         // Finally the string builder is returned
@@ -124,7 +121,7 @@ public abstract class ActionablePost extends Post {
         // this removes the endorsement from the endorsement list
         endorsements.remove(index);
 
-        assert (index > 0) : "Endoresment not removed sucessfully";
+        assert (index >= 0) : "Endoresment not removed sucessfully";
     }
     /**
      * This method removes a comment from the comments list
@@ -142,7 +139,7 @@ public abstract class ActionablePost extends Post {
         // this removes the comments from the comments list
         comments.remove(index);
 
-        assert (index > 0) : "Comment not removed sucessfully";
+        assert (index >= 0) : "Comment not removed sucessfully";
     }
     @Override
     public void delete(){

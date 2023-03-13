@@ -6,6 +6,8 @@ public class EmptyPost implements Serializable{
     //TODO
     protected String message;
 
+    static final long serialVersionUID = -8387231454307585516l;
+
     /**
      * This constructor creates an empty post
      */
