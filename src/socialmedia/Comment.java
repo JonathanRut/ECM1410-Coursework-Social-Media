@@ -1,4 +1,6 @@
 package socialmedia;
+
+
 /**
  * This comment class is used to create objects that represents comments in a post
  * 
@@ -33,7 +35,7 @@ public class Comment extends ActionablePost{
         this.message = message;
         numberComments++;
         // the comment is added to the original post list of comments
-        
+        this.poster.addPost(this);
         ((ActionablePost)commentedPost).addComment(this);
     }
     /**
@@ -48,14 +50,17 @@ public class Comment extends ActionablePost{
      */
     @Override
     public void delete(){
-        // use the super method of deleting to partially remove the comment
+        // use the super method of deleting to partially remove the Comment
         super.delete();
-        // the comment is remove from the original post list of comments
-        ((ActionablePost)commentedPost).removeComment(this);
-        // the link to the original post is removed
-        commentedPost = new EmptyPost();
+        int originalNumberOfComments = numberComments;
+        // the comment is removed from the original post list of comments
+        if(commentedPost instanceof ActionablePost){
+            ((ActionablePost)commentedPost).removeComment(this);
+        }
+        poster.removePost(this);
+        numberComments--;
         // Assertion checks that the post condition is met and if it is not met then it throws an exception
-        assert (commentedPost.getMessage().equals("The original content was removed from the system and is no longer available.")):"Comment not successfully deleted";
+        assert (originalNumberOfComments - 1 == numberComments):"Comment not successfully deleted";
     }
 
     /**

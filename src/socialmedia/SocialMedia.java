@@ -21,16 +21,25 @@ public class SocialMedia implements SocialMediaPlatform {
 	 * This provides a way of getting Posts based of IDs
 	 */
 	private HashMap<Integer, Post> posts = new HashMap<Integer, Post>();
+	public HashMap<Integer, Post> getPosts() {
+		return posts;
+	}
 	/**
 	 * A {@link HashMap} is used here to store key value pairs with the keys of type {@link String} and values of type {@link Account}
 	 * This provides a way of getting Accounts based of their handles
 	 */
 	private HashMap<String, Account> accountsByHandle = new HashMap<String, Account>();
+	public HashMap<String, Account> getAccountsByHandle() {
+		return accountsByHandle;
+	}
 	/**
 	 * A {@link HashMap} is used here to store key value pairs with the keys of type {@link Integer} and values of type {@link Account}
 	 * This provides a way of getting Accounts based of their ids
 	 */
 	private HashMap<Integer, Account> accountsById = new HashMap<Integer, Account>();
+	public HashMap<Integer, Account> getAccountsById() {
+		return accountsById;
+	}
 
 	@Override
 	public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
@@ -80,9 +89,14 @@ public class SocialMedia implements SocialMediaPlatform {
 		// The posts that the account has posted are iterated through and removed from the hashmap containing posts in the system
 		ArrayList<Post> deletePosts = deleteAccount.getPosts();
 		for(Post post : deletePosts){
-			int postId = post.getId();
-			posts.remove(postId);
-		}	
+            if(post instanceof ActionablePost){
+                ArrayList<Endorsement> endorsements = ((ActionablePost)post).getEndorsements();
+                for(Endorsement endorsement : endorsements){
+                    posts.remove(endorsement.getId());
+                }
+            }
+            posts.remove(post.getId());
+        }
 		// Finally the account is deleted
 		deleteAccount.delete();
 		// Assertion checks that the post condition is met and if it is not met then it throws an exception
@@ -103,9 +117,14 @@ public class SocialMedia implements SocialMediaPlatform {
 		// The posts that the account has posted are iterated through and removed from the hashmap containing posts in the system
 		ArrayList<Post> deletePosts = deleteAccount.getPosts();
 		for(Post post : deletePosts){
-			int postId = post.getId();
-			posts.remove(postId);
-		}	
+            if(post instanceof ActionablePost){
+                ArrayList<Endorsement> endorsements = ((ActionablePost)post).getEndorsements();
+                for(Endorsement endorsement : endorsements){
+                    posts.remove(endorsement.getId());
+                }
+            }
+            posts.remove(post.getId());
+        }
 		// Finally the account is deleted
 		deleteAccount.delete();
 		// Assertion checks that the post condition is met and if it is not met then it throws an exception
@@ -220,11 +239,17 @@ public class SocialMedia implements SocialMediaPlatform {
 		// A new variable is created for asserting the post was deleted
 		int originalNumberOfPosts = posts.size();
 		isRecognisedPostID(id);
-		// The post to be deleted is retrieved
-		Post deletePost = posts.get(id);
-		// The post is removed from the hashmap of posts then deleted
+		
+		Post delPost = posts.get(id);
+		if (delPost instanceof ActionablePost){
+			for(Endorsement endorsement : ((ActionablePost)delPost).getEndorsements()){
+				int endorseId = endorsement.getId();
+				posts.remove(endorseId);
+			}
+		}
+
 		posts.remove(id);
-		deletePost.delete();
+		delPost.delete();
 		// Assertion checks that the post condition is met and if it is not met then it throws an exception
 		assert (originalNumberOfPosts - 1 == posts.size()) : "Post not deleted successfully";
 	}
@@ -287,10 +312,13 @@ public class SocialMedia implements SocialMediaPlatform {
 		// This for loop iterates through the post ids in the system
 		for(int id: ids){
 			// The ith post is retrieved and then compared to the max number of endorsements
-			Post currentPost = posts.get(id);
-			if(((ActionablePost)currentPost).getNumberOfEndorsements() >= maxEndorsements){
+			if(!(posts.get(id) instanceof ActionablePost)){
+				continue;
+			}
+			ActionablePost currentPost = (ActionablePost)posts.get(id);
+			if(currentPost.getNumberOfEndorsements() >= maxEndorsements){
 				// If a new max number of endorsements is found the number is updated and the most endorsed id is updated
-				maxEndorsements = ((ActionablePost)currentPost).getNumberOfEndorsements();
+				maxEndorsements = currentPost.getNumberOfEndorsements();
 				mostEndorsedId = id;
 			}
 		}

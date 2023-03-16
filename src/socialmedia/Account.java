@@ -3,6 +3,7 @@ package socialmedia;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
 /**
  * The account class is used to create objects that represent users that can post to the social media
  * 
@@ -149,14 +150,23 @@ public class Account implements Serializable{
     public void delete() {
         // A new variable is created for asserting the account was deleted
         int originalNumberOfAccounts = numberAccounts;
+
         // The for loops goes through the accounts posts and calls their delete method
-        for(Post post : posts){
+        while(!posts.isEmpty()){
+            Post post = posts.get(0);
+            if(post instanceof ActionablePost){
+                ArrayList<Endorsement> endorsements = ((ActionablePost)post).getEndorsements();
+                for(Endorsement endorsement : endorsements){
+                    endorsement.delete();
+                }
+            }
             post.delete();
         }
+
         // The number of accounts is decremented by 1
         numberAccounts--;
         // Assertion checks that the post condition is met and if it is not met then it throws an exception
-        assert (posts.size()==0 && originalNumberOfAccounts-1==numberAccounts):"Account not deleted successfully";
+        assert (originalNumberOfAccounts-1==numberAccounts):"Account not deleted successfully";
     }
 
     /**

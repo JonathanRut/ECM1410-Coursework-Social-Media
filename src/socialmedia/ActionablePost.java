@@ -142,19 +142,22 @@ public abstract class ActionablePost extends Post {
         assert (index >= 0) : "Comment not removed sucessfully";
     }
     @Override
-    public void delete(){
+    protected void delete(){
         // For each Endorsement in the endorsemens list, the endorsement is deleted
-        for(Endorsement endorsement : endorsements){
+        while(!endorsements.isEmpty()){
+            Endorsement endorsement = endorsements.get(0);
             endorsement.delete();
         }
-        // For each Comment in the comments list, the link to the post is removed 
         for(Comment comment : comments){
             comment.setCommentedPost(new EmptyPost());
         }
-        //this removes the post from the account it was posted from
-        poster.removePost(this);
+        comments.clear();
 
-        assert (endorsements.size() == 0 && comments.size() == 0 && !poster.getPosts().contains(this)) : "Post not deleted sucessfully";
+        assert (endorsements.size() == 0 && comments.size() == 0) : "Post not deleted sucessfully";
+    }
+
+    public ArrayList<Endorsement> getEndorsements() {
+        return endorsements;
     }
 
 }

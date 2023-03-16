@@ -45,7 +45,7 @@ public abstract class Post extends EmptyPost {
     /**
      * Deletes posts
      */
-    public abstract void delete();
+    protected abstract void delete();
 
     /**
      * Resets the static counter shared by all posts

@@ -40,6 +40,7 @@ public class OriginalPost extends ActionablePost{
         super.delete();
         // this decreases the numberPosts counter by 1
         numberOriginalPosts--;
+        poster.removePost(this);
         // Assertion checks that the post condition is met and if it is not met then it throws an exception
         assert (numberofOriginalOriginalPosts - 1 == numberOriginalPosts):"Original post not deleted successfully";
     }
