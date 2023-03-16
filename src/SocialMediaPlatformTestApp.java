@@ -1,12 +1,20 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+import socialmedia.Account;
 import socialmedia.AccountIDNotRecognisedException;
+import socialmedia.Endorsement;
 import socialmedia.HandleNotRecognisedException;
 import socialmedia.IllegalHandleException;
 import socialmedia.InvalidHandleException;
 import socialmedia.InvalidPostException;
 import socialmedia.NotActionablePostException;
+import socialmedia.OriginalPost;
+import socialmedia.Comment;
+import socialmedia.Post;
+import socialmedia.ActionablePost;
 import socialmedia.PostIDNotRecognisedException;
 import socialmedia.SocialMedia;
 import socialmedia.SocialMediaPlatform;
@@ -35,7 +43,7 @@ public class SocialMediaPlatformTestApp {
 	 * 
 	 * @param args not used
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		System.out.println("The system compiled and started the execution...");
 
 		SocialMediaPlatform platform = new SocialMedia();
@@ -966,5 +974,68 @@ public class SocialMediaPlatformTestApp {
 		assert (platform.getNumberOfAccounts() == loadedPlatform.getNumberOfAccounts() && platform.getTotalOriginalPosts() == loadedPlatform.getTotalOriginalPosts() && platform.getTotalCommentPosts() == loadedPlatform.getTotalCommentPosts() && platform.getTotalEndorsmentPosts() == loadedPlatform.getTotalEndorsmentPosts());
 		File savedFile = new File(filename);
 		savedFile.delete();
+
+
+		
+		platform.erasePlatform();
+
+		int delEndorser = platform.createAccount("deleteEndorse");
+		int delCommenter = platform.createAccount("commenter");
+
+		int permId = platform.createPost("commenter", "perm");
+		double n = 0;
+		double numberOfTrials = 1_000_000_000;
+		while (n < numberOfTrials){
+			int accountId = platform.createAccount("todelete");
+			int postId = platform.createPost("todelete", "HI");
+			int semiPermID = platform.createPost("commenter", "perm2");
+			platform.endorsePost("todelete", postId);
+			platform.commentPost("todelete", postId, "GOOD post");
+			platform.endorsePost("deleteEndorse", postId);
+
+			int permEndorse = platform.endorsePost("deleteEndorse", permId);
+			int permComment = platform.commentPost("commenter", permId, "HI");
+			platform.removeAccount(accountId);
+			platform.deletePost(permEndorse);
+			platform.deletePost(permComment);
+			platform.deletePost(semiPermID);
+			n++;
+			
+			if(n % 500_000 == 0){
+				System.out.println("Percent Complete: " + 100 * n/numberOfTrials + "%");
+				HashMap<Integer, Post> posts = ((SocialMedia)platform).getPosts();
+				HashMap<String, Account> accountsByHandle = ((SocialMedia)platform).getAccountsByHandle();
+				HashMap<Integer, Account> accountsById = ((SocialMedia)platform).getAccountsById();
+				int numberOfEndorsements = 0;
+				int numberOfOriginalPosts = 0;
+				int numberOfComments = 0;
+				for(int postKey : posts.keySet()){
+					if(posts.get(postKey) instanceof OriginalPost){
+						numberOfOriginalPosts++;
+					}
+					if(posts.get(postKey) instanceof Comment){
+						numberOfComments++;
+					}
+					if(posts.get(postKey) instanceof Endorsement){
+						numberOfEndorsements++;
+					}
+				}
+				System.out.println("Accounts: "+ (accountsByHandle.size() == accountsById.size() ? accountsById.size():"Something went wrong")+" Orignals: " + numberOfOriginalPosts + " Comments: " + numberOfComments + " Endorsements: " + numberOfEndorsements);
+				System.out.println("Accounts: "+ platform.getNumberOfAccounts() +" Orignals: " + platform.getTotalOriginalPosts() + " Comments: " + platform.getTotalCommentPosts() + " Endorsements: " + platform.getTotalEndorsmentPosts());
+				ArrayList<Post> commenterPosts = accountsById.get(delCommenter).getPosts();
+				ArrayList<Post> endorserPosts = accountsById.get(delEndorser).getPosts();
+				ArrayList<Endorsement> permEndorsements = ((ActionablePost)posts.get(permId)).getEndorsements();
+				ArrayList<Endorsement> permComments = ((ActionablePost)posts.get(permId)).getEndorsements();
+				System.out.println("Commenter Posts: " + commenterPosts.size() + " Endorser Posts: " + endorserPosts.size() + " Permanant Post Comments: " + permComments.size() + " Permanant Post Endorsements: " + permEndorsements.size());
+				assert (commenterPosts.size() == 1 && endorserPosts.size() == 0 && permComments.size() == 0 && permEndorsements.size() == 0);
+				System.out.println();
+			}
+			
+
+ 			
+			
+		}
+		
+		System.out.println("Tests passed");
 	}
 }
