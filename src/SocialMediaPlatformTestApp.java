@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.IOException;
+
 import socialmedia.AccountIDNotRecognisedException;
 import socialmedia.HandleNotRecognisedException;
 import socialmedia.IllegalHandleException;
@@ -37,10 +40,10 @@ public class SocialMediaPlatformTestApp {
 
 		SocialMediaPlatform platform = new SocialMedia();
 
-		assert (platform.getNumberOfAccounts() == 0) : "Innitial SocialMediaPlatform not empty as required.";
-		assert (platform.getTotalOriginalPosts() == 0) : "Innitial SocialMediaPlatform not empty as required.";
-		assert (platform.getTotalCommentPosts() == 0) : "Innitial SocialMediaPlatform not empty as required.";
-		assert (platform.getTotalEndorsmentPosts() == 0) : "Innitial SocialMediaPlatform not empty as required.";
+		assert (platform.getNumberOfAccounts() == 0) : "Initial SocialMediaPlatform not empty as required.";
+		assert (platform.getTotalOriginalPosts() == 0) : "Initial SocialMediaPlatform not empty as required.";
+		assert (platform.getTotalCommentPosts() == 0) : "Initial SocialMediaPlatform not empty as required.";
+		assert (platform.getTotalEndorsmentPosts() == 0) : "Initial SocialMediaPlatform not empty as required.";
 
 		Integer id;
 		try {
@@ -704,5 +707,264 @@ public class SocialMediaPlatformTestApp {
 			assert (true);
 		}
 
+		// typical test for the getter of numberOfAccounts
+		int numberAccounts = platform.getNumberOfAccounts();
+		int Id1 = -1;
+
+		try{
+			Id1 = platform.createAccount("numberAccounts");
+		}
+		catch(IllegalHandleException e){
+			assert (false) : "IllegalHandleException thrown incorrectly";
+		}
+		catch(InvalidHandleException e){
+			assert (false) : "InvalidHandleException thrown incorrectly";
+		}
+		assert (numberAccounts + 1 == platform.getNumberOfAccounts()):"Account number is invalid";
+		try{
+			platform.removeAccount(Id1);
+		}
+		catch(AccountIDNotRecognisedException e){
+			assert (false) : "AccountIDNotRecognisedException thrown incorrectly";	
+		}
+
+		assert (numberAccounts == platform.getNumberOfAccounts()):"Account number is invalid";
+
+		// typical test for the getter of TotalOriginalPosts
+		int numberPosts = platform.getTotalOriginalPosts();
+		int PostId1 = -1;
+		try{
+			platform.createAccount("numberPosts");
+			PostId1 = platform.createPost("numberPosts", "posat");
+		}
+		catch(IllegalHandleException e){
+			assert (false) : "IllegalHandleException thrown incorrectly";
+		}
+		catch(InvalidHandleException e){
+			assert (false) : "InvalidHandleException thrown incorrectly";
+		}
+		catch(HandleNotRecognisedException e){
+			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+		}
+		catch(InvalidPostException e){
+			assert (false) : "InvalidPostException thrown incorrectly";
+		}
+		assert (numberPosts + 1 == platform.getTotalOriginalPosts()):"Post number is invalid";
+		
+		try{
+			platform.deletePost(PostId1);
+		}
+		catch(PostIDNotRecognisedException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		assert (numberPosts == platform.getTotalOriginalPosts()):"Post number is invalid";
+		
+		// typical test for the getter of TotalEndorsementPost
+		int numberEndorsements = platform.getTotalEndorsmentPosts();
+		int PostId2;
+		int EndorsementId1 = -1;
+		try{
+			platform.createAccount("numberEndorsements");
+			PostId2 = platform.createPost("numberEndorsements", "posat");
+			EndorsementId1 = platform.endorsePost("numberEndorsements", PostId2);
+		}
+		catch(IllegalHandleException e){
+			assert (false) : "IllegalHandleException thrown incorrectly";
+		}
+		catch(InvalidHandleException e){
+			assert (false) : "InvalidHandleException thrown incorrectly";
+		}
+		catch(HandleNotRecognisedException e){
+			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+		}
+		catch(InvalidPostException e){
+			assert (false) : "InvalidPostException thrown incorrectly";
+		}
+		catch(PostIDNotRecognisedException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		catch(NotActionablePostException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		assert (numberEndorsements + 1 == platform.getTotalEndorsmentPosts()):"Endorsement number is invalid";
+
+		try{
+			platform.deletePost(EndorsementId1);
+		}
+		catch(PostIDNotRecognisedException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		assert (numberEndorsements == platform.getTotalEndorsmentPosts()):"Endorsement number is invalid";
+
+		// typical test for the getter of TotalCommentPosts
+		int numberComments = platform.getTotalCommentPosts();
+		int PostId3;
+		int commentId1 = -1;
+		try{
+			platform.createAccount("numberComments");
+			PostId3 = platform.createPost("numberComments", "posat");
+			commentId1 = platform.commentPost("numberComments", PostId3, "fine");
+		}
+		catch(IllegalHandleException e){
+			assert (false) : "IllegalHandleException thrown incorrectly";
+		}
+		catch(InvalidHandleException e){
+			assert (false) : "InvalidHandleException thrown incorrectly";
+		}
+		catch(HandleNotRecognisedException e){
+			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+		}
+		catch(InvalidPostException e){
+			assert (false) : "InvalidPostException thrown incorrectly";
+		}
+		catch(PostIDNotRecognisedException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		catch(NotActionablePostException e){
+			assert (false) : "NotActionablePostException thrown incorrectly";
+		}
+		assert (numberComments + 1 == platform.getTotalCommentPosts()):"Endorsement number is invalid";
+
+		try{
+			platform.deletePost(commentId1);
+		}
+		catch(PostIDNotRecognisedException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		assert (numberComments == platform.getTotalCommentPosts()):"Endorsement number is invalid";
+
+		// typical test for the getter of MostEndorsedPost
+		int postId4 = -1;
+		try{
+			platform.createAccount("MostEndorsedPost");
+			postId4 = platform.createPost("MostEndorsedPost", "so fine");
+			platform.createPost("MostEndorsedPost", "damm so fine");
+			platform.endorsePost("MostEndorsedPost", postId4);
+		}
+		catch(IllegalHandleException e){
+			assert (false) : "IllegalHandleException thrown incorrectly";
+		}
+		catch(InvalidHandleException e){
+			assert (false) : "InvalidHandleException thrown incorrectly";
+		}
+		catch(HandleNotRecognisedException e){
+			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+		}
+		catch(InvalidPostException e){
+			assert (false) : "InvalidPostException thrown incorrectly";
+		}
+		catch(PostIDNotRecognisedException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		catch(NotActionablePostException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		assert (postId4 == platform.getMostEndorsedPost()) : "Incorrectly got mostEndorsedPost";
+
+		// typical test for the getter of MostEndorsedAccount
+		int Id3 = -1;
+		int postId6 = -1;
+		try{
+			Id3 = platform.createAccount("MostEndorsedAccount1");
+			platform.createAccount("MostEndorsedAccount2");
+			postId6 = platform.createPost("MostEndorsedAccount1", "damm it's so fine");
+			platform.createPost("MostEndorsedAccount2", "damm it is so fine");
+			platform.endorsePost("MostEndorsedAccount1", postId6);
+		}
+		catch(IllegalHandleException e){
+			assert (false) : "IllegalHandleException thrown incorrectly";
+		}
+		catch(InvalidHandleException e){
+			assert (false) : "InvalidHandleException thrown incorrectly";
+		}
+		catch(HandleNotRecognisedException e){
+			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+		}
+		catch(InvalidPostException e){
+			assert (false) : "InvalidPostException thrown incorrectly";
+		}
+		catch(PostIDNotRecognisedException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		catch(NotActionablePostException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		assert (Id3 == platform.getMostEndorsedAccount()) : "Incorrectly got mostEndorsedAccount";
+
+		// typical test for ErasePlatform
+		int postId8 = -1;
+		try{
+			platform.createAccount("erasePlatform");
+			postId8 = platform.createPost("erasePlatform", "hmm");
+			platform.endorsePost("erasePlatform", postId8);
+			platform.commentPost("erasePlatform", postId8, "damm hmm");
+		}
+		catch(IllegalHandleException e){
+			assert (false) : "IllegalHandleException thrown incorrectly";
+		}
+		catch(InvalidHandleException e){
+			assert (false) : "InvalidHandleException thrown incorrectly";
+		}
+		catch(HandleNotRecognisedException e){
+			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+		}
+		catch(InvalidPostException e){
+			assert (false) : "InvalidPostException thrown incorrectly";
+		}
+		catch(PostIDNotRecognisedException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		catch(NotActionablePostException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		platform.erasePlatform();
+		assert (platform.getNumberOfAccounts() == 0 && platform.getTotalCommentPosts() == 0 && platform.getTotalEndorsmentPosts() == 0 && platform.getTotalOriginalPosts() == 0) : "Incorrectly erased platform";
+
+		// typical test for save and load platform
+		int postId9 = -1;
+		try{
+			platform.createAccount("savePlatform");
+			postId9 = platform.createPost("savePlatform", "damm oh so fine");
+			platform.endorsePost("savePlatform", postId9);
+			platform.commentPost("savePlatform", postId9, "oh");
+		}
+		catch(IllegalHandleException e){
+			assert (false) : "IllegalHandleException thrown incorrectly";
+		}
+		catch(InvalidHandleException e){
+			assert (false) : "InvalidHandleException thrown incorrectly";
+		}
+		catch(HandleNotRecognisedException e){
+			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+		}
+		catch(InvalidPostException e){
+			assert (false) : "InvalidPostException thrown incorrectly";
+		}
+		catch(PostIDNotRecognisedException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		catch(NotActionablePostException e){
+			assert (false) : "PostIDNotRecognisedException";
+		}
+		String filename = "test_save_platform.ser";
+		try{
+			platform.savePlatform(filename);
+		}
+		catch(IOException e){
+			assert (false) : "IOException";
+		}
+		SocialMediaPlatform loadedPlatform = new SocialMedia();
+		try{
+			loadedPlatform.loadPlatform(filename);
+		}
+		catch(IOException e){
+			assert (false) : "IOException";
+		}
+		catch(ClassNotFoundException e){
+			assert (false) : "ClassNotFoundException";
+		}
+		assert (platform.getNumberOfAccounts() == loadedPlatform.getNumberOfAccounts() && platform.getTotalOriginalPosts() == loadedPlatform.getTotalOriginalPosts() && platform.getTotalCommentPosts() == loadedPlatform.getTotalCommentPosts() && platform.getTotalEndorsmentPosts() == loadedPlatform.getTotalEndorsmentPosts());
+		File savedFile = new File(filename);
+		savedFile.delete();
 	}
 }
