@@ -1035,7 +1035,7 @@ public class SocialMediaPlatformTestApp {
  			
 			
 		}
-		
+		// Failed 1 billion at 613 500 000
 		System.out.println("Tests passed");
 	}
 }
