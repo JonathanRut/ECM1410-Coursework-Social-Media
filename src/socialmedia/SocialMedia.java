@@ -62,6 +62,7 @@ public class SocialMedia implements SocialMediaPlatform {
 	public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
 		// A new variable is created for asserting the account was created
 		int originalNumberOfAccounts = getNumberOfAccounts();
+		// Checking if the handle is legal
 		isLegalHandle(handle);
 		// A new account is made with the given handle and description
 		Account newAccount = new Account(handle,description);
@@ -85,16 +86,18 @@ public class SocialMedia implements SocialMediaPlatform {
 		accountsById.remove(id);
 		String handle = deleteAccount.getHandle();
 		accountsByHandle.remove(handle);
-
 		// The posts that the account has posted are iterated through and removed from the hashmap containing posts in the system
 		ArrayList<Post> deletePosts = deleteAccount.getPosts();
+		// this for loop iterates through post
 		for(Post post : deletePosts){
+			// this if statement looks for instances of ActionablePost in post
             if(post instanceof ActionablePost){
                 ArrayList<Endorsement> endorsements = ((ActionablePost)post).getEndorsements();
                 for(Endorsement endorsement : endorsements){
                     posts.remove(endorsement.getId());
                 }
             }
+			// the posts gets removed
             posts.remove(post.getId());
         }
 		// Finally the account is deleted
@@ -116,13 +119,16 @@ public class SocialMedia implements SocialMediaPlatform {
 
 		// The posts that the account has posted are iterated through and removed from the hashmap containing posts in the system
 		ArrayList<Post> deletePosts = deleteAccount.getPosts();
+		// this for loop iterates through post
 		for(Post post : deletePosts){
+			// this if statement looks for instances of ActionablePost in post
             if(post instanceof ActionablePost){
                 ArrayList<Endorsement> endorsements = ((ActionablePost)post).getEndorsements();
                 for(Endorsement endorsement : endorsements){
                     posts.remove(endorsement.getId());
                 }
             }
+			// the posts get removed
             posts.remove(post.getId());
         }
 		// Finally the account is deleted
@@ -150,7 +156,7 @@ public class SocialMedia implements SocialMediaPlatform {
 	@Override
 	public void updateAccountDescription(String handle, String description) throws HandleNotRecognisedException {
 		isRecognisedHandle(handle);
-		// The account to be updated is retrieved and its new desciprion is set
+		// The account to be updated is retrieved and its new description is set
 		Account account = accountsByHandle.get(handle);
 		String oldDescription= account.getDescription();
 		account.setDescription(description);
@@ -384,7 +390,7 @@ public class SocialMedia implements SocialMediaPlatform {
 		}
 	}
 
-	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
 		try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))){

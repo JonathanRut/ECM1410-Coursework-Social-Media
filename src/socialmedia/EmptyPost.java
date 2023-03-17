@@ -3,7 +3,6 @@ package socialmedia;
 import java.io.Serializable;
 
 public class EmptyPost implements Serializable{
-    //TODO
     protected String message;
 
     static final long serialVersionUID = -8387231454307585516l;
