@@ -1,23 +1,30 @@
 package socialmedia;
 
+/**
+ * The post class is used to create objects that represent users posts on social media
+ * 
+ * @author Jonathan Rutland and Daniel Stirling Barros
+ * @version 1.0
+ */
 public abstract class Post extends EmptyPost {
     /**
-     * A protected constant {@link Integer} used to store the id of a post this is unique to the post
+     * A protected constant attribute {@link Integer} used to store the id of a post this is unique to the post
      */
     protected final int ID;
 
     /**
-     * A protected variable {@link Account} used to store the account who posted the post
+     * A protected attribute {@link Account} used to store the account who posted the post
      */
     protected Account poster;
 
     /**
-     * A private variable {@link Integer} that stores the id of the next post to be created
+     * A public attribute {@link Integer} that stores the id of the next post to be created
      */
     public static int currentId=0;
 
-    private static final long serialVersionUID = 5574749677956144457l;
-
+    /**
+     * A basic post constructor that sets ID and increments the current ID
+     */
     public Post(){
         this.ID = currentId;
         currentId++;
@@ -31,6 +38,10 @@ public abstract class Post extends EmptyPost {
         return this.ID;
     }
 
+    /**
+     * This method returns a string of information about the Individual post
+     * @return the string of information about the post 
+     */
     @Override
     public abstract String toString();
 
@@ -43,16 +54,17 @@ public abstract class Post extends EmptyPost {
     }
 
     /**
-     * Deletes posts
+     * Deletes post
      */
     protected abstract void delete();
 
     /**
-     * Resets the static counter shared by all posts
+     * Resets the static counter used for the post
      */
     static public void resetCounters(){
         currentId=0;
     } 
+    
     /**
      * This method checks if the post message is valid
      * @param message the message being checked

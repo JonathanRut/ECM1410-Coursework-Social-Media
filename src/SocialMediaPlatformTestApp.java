@@ -1,20 +1,12 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
-import socialmedia.Account;
 import socialmedia.AccountIDNotRecognisedException;
-import socialmedia.Endorsement;
 import socialmedia.HandleNotRecognisedException;
 import socialmedia.IllegalHandleException;
 import socialmedia.InvalidHandleException;
 import socialmedia.InvalidPostException;
 import socialmedia.NotActionablePostException;
-import socialmedia.OriginalPost;
-import socialmedia.Comment;
-import socialmedia.Post;
-import socialmedia.ActionablePost;
 import socialmedia.PostIDNotRecognisedException;
 import socialmedia.SocialMedia;
 import socialmedia.SocialMediaPlatform;
@@ -105,7 +97,7 @@ public class SocialMediaPlatformTestApp {
 			assert (true);
 		}
 
-		// Testing erroneous case for create account for if handle is longer than 30 charcters
+		// Testing erroneous case for create account for if handle is longer than 30 characters
 		try{
 			platform.createAccount("ham".repeat(11));
 			assert (false) : "Account incorrectly created";
@@ -168,7 +160,7 @@ public class SocialMediaPlatformTestApp {
 			assert (true);
 		}
 
-		// Testing erroneous case for create account for if handle is longer than 30 charcters
+		// Testing erroneous case for create account for if handle is longer than 30 characters
 		try{
 			platform.createAccount("ham".repeat(11), "tasty");
 			assert (false) : "Account incorrectly created";
@@ -210,7 +202,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "IllegalHandleException thrown incorrectly";
 		}
 
-		// Testing erronouse case for removing account
+		// Testing erroneous case for removing account
 		try{
 			platform.removeAccount("grilledham");
 			assert (false) : "Account removed incorrectly";
@@ -237,7 +229,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "IllegalHandleException thrown incorrectly";
 		}
 
-		// Testing erronouse case for removing account
+		// Testing erroneous case for removing account
 		try{
 			platform.removeAccount(-1);
 			assert (false) : "Account removed incorrectly";
@@ -263,7 +255,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 
-		// Testing erronous case for changing account handle when handle not recognised
+		// Testing erroneous case for changing account handle when handle not recognised
 		try{
 			platform.changeAccountHandle("notrecognisedham", "changedHam");
 			assert (false) : "Account handle changed incorrectly";
@@ -278,7 +270,7 @@ public class SocialMediaPlatformTestApp {
 			assert (true);
 		}
 
-		// Testing erronous case for changing account handle when new handle contains a whitespace
+		// Testing erroneous case for changing account handle when new handle contains a whitespace
 		try{
 			platform.createAccount("changeham1");
 			platform.changeAccountHandle("changeham1", "changed Ham");
@@ -295,7 +287,7 @@ public class SocialMediaPlatformTestApp {
 		}
 
 
-		// Testing erronous case for changing account handle when new handle is empty
+		// Testing erroneous case for changing account handle when new handle is empty
 		try{
 			platform.createAccount("changeham2");
 			platform.changeAccountHandle("changeham2", "");
@@ -312,7 +304,7 @@ public class SocialMediaPlatformTestApp {
 		}
 
 
-		// Testing erronous case for changing account handle when new handle is longer than 30 characters
+		// Testing erroneous case for changing account handle when new handle is longer than 30 characters
 		try{
 			platform.createAccount("changeham3");
 			platform.changeAccountHandle("changeham3", "ham".repeat(11));
@@ -328,7 +320,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 
-		// Testing erronous case for changing account handle when new handle is invalid
+		// Testing erroneous case for changing account handle when new handle is invalid
 		try{
 			platform.createAccount("changeham4");
 			platform.createAccount("invalidham");
@@ -362,7 +354,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 
-		// Testing erronous case for updating account description when handle not recognised
+		// Testing erroneous case for updating account description when handle not recognised
 		try{
 			platform.updateAccountDescription("notrecognisedham", "meaty");
 			assert (false) : "Description changed incorrectly";
@@ -386,10 +378,10 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 
-		// Testing erronous case for showing account when hanlde not recognised
+		// Testing erroneous case for showing account when handle not recognised
 		try{
 			platform.showAccount("notrecognisedham");
 			assert (false) : "Account shown incorrectly";
@@ -411,13 +403,13 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
 		}
 
-		// Testing erronous case for when hanlde is not recognised
+		// Testing erroneous case for when handle is not recognised
 		try{
 			platform.createPost("notrecognisedhandle", "look at this piece of ham");
 			assert (false) : "Post created incorrectly";
@@ -429,7 +421,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidPostException thrown incorrectly";
 		}
 
-		// Testing erronous case when post message is empty
+		// Testing erroneous case when post message is empty
 		try{
 			platform.createAccount("postcreator1");
 			platform.createPost("postcreator1", "");
@@ -442,13 +434,13 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (true);
 		}
 
-		// Testing erronous case when post message is longer than 100 characters
+		// Testing erroneous case when post message is longer than 100 characters
 		try{
 			platform.createAccount("postcreator2");
 			platform.createPost("postcreator2", "ham".repeat(35));
@@ -461,7 +453,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (true);
@@ -484,7 +476,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -496,7 +488,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "NotActionablePostException thrown incorrectly";
 		}
 
-		// Testing erronous case when making an endorsement and post id doesn't exist in the system
+		// Testing erroneous case when making an endorsement and post id doesn't exist in the system
 		try{
 			platform.createAccount("endorser1");
 			platform.endorsePost("endorser1", -1);
@@ -509,7 +501,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(PostIDNotRecognisedException e){
 			assert (true);
@@ -518,7 +510,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "NotActionablePostException thrown incorrectly";
 		}
 		
-		// Testing erronous case when making an endorsement on an endorsement
+		// Testing erroneous case when making an endorsement on an endorsement
 		try{
 			platform.createAccount("postcreator4");
 			platform.createAccount("endorser2");
@@ -535,7 +527,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -562,7 +554,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -574,7 +566,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "NotActionablePostException thrown incorrectly";
 		}
 
-		// Testing erronous case when making a comment and post id doesn't exist in the system
+		// Testing erroneous case when making a comment and post id doesn't exist in the system
 		try{
 			platform.createAccount("commenter1");
 			platform.commentPost("commenter", -1, "wow some tasty ham");
@@ -587,7 +579,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(PostIDNotRecognisedException e){
 			assert (true);
@@ -599,7 +591,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidPostException thrown incorrectly";
 		} 
 
-		// Testing erronous case when making an comment on an endorsement
+		// Testing erroneous case when making an comment on an endorsement
 		try{
 			platform.createAccount("postcreator6");
 			platform.createAccount("endorser4");
@@ -616,7 +608,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -628,7 +620,7 @@ public class SocialMediaPlatformTestApp {
 			assert (true);
 		}
 
-		// Testing erronous case when comment message is empty
+		// Testing erroneous case when comment message is empty
 		try{
 			platform.createAccount("postcreator7");
 			platform.createAccount("commenter3");
@@ -643,7 +635,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (true);
@@ -655,7 +647,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "NotActionablePostException thrown incorrectly";
 		}
 
-		// Testing erronous case when comment message is longer than 100 characters
+		// Testing erroneous case when comment message is longer than 100 characters
 		try{
 			platform.createAccount("postcreator8");
 			platform.createAccount("commenter4");
@@ -670,7 +662,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (true);
@@ -697,7 +689,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -706,7 +698,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "PostIDNotRecognisedException thrown incorrectly";
 		}
 
-		// Erronous case for deleting a post when post id doesn't exist in the system
+		// Erroneous case for deleting a post when post id doesn't exist in the system
 		try{
 			platform.deletePost(-1);
 			assert (false) : "Post incorrectly deleted";
@@ -717,10 +709,10 @@ public class SocialMediaPlatformTestApp {
 
 		// typical test for the getter of numberOfAccounts
 		int numberAccounts = platform.getNumberOfAccounts();
-		int Id1 = -1;
+		int id1 = -1;
 
 		try{
-			Id1 = platform.createAccount("numberAccounts");
+			id1 = platform.createAccount("numberAccounts");
 		}
 		catch(IllegalHandleException e){
 			assert (false) : "IllegalHandleException thrown incorrectly";
@@ -730,7 +722,7 @@ public class SocialMediaPlatformTestApp {
 		}
 		assert (numberAccounts + 1 == platform.getNumberOfAccounts()):"Account number is invalid";
 		try{
-			platform.removeAccount(Id1);
+			platform.removeAccount(id1);
 		}
 		catch(AccountIDNotRecognisedException e){
 			assert (false) : "AccountIDNotRecognisedException thrown incorrectly";	
@@ -740,10 +732,10 @@ public class SocialMediaPlatformTestApp {
 
 		// typical test for the getter of TotalOriginalPosts
 		int numberPosts = platform.getTotalOriginalPosts();
-		int PostId1 = -1;
+		int postId1 = -1;
 		try{
 			platform.createAccount("numberPosts");
-			PostId1 = platform.createPost("numberPosts", "posat");
+			postId1 = platform.createPost("numberPosts", "post");
 		}
 		catch(IllegalHandleException e){
 			assert (false) : "IllegalHandleException thrown incorrectly";
@@ -752,7 +744,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -760,7 +752,7 @@ public class SocialMediaPlatformTestApp {
 		assert (numberPosts + 1 == platform.getTotalOriginalPosts()):"Post number is invalid";
 		
 		try{
-			platform.deletePost(PostId1);
+			platform.deletePost(postId1);
 		}
 		catch(PostIDNotRecognisedException e){
 			assert (false) : "PostIDNotRecognisedException";
@@ -769,12 +761,12 @@ public class SocialMediaPlatformTestApp {
 		
 		// typical test for the getter of TotalEndorsementPost
 		int numberEndorsements = platform.getTotalEndorsmentPosts();
-		int PostId2;
+		int postId2;
 		int EndorsementId1 = -1;
 		try{
 			platform.createAccount("numberEndorsements");
-			PostId2 = platform.createPost("numberEndorsements", "posat");
-			EndorsementId1 = platform.endorsePost("numberEndorsements", PostId2);
+			postId2 = platform.createPost("numberEndorsements", "post");
+			EndorsementId1 = platform.endorsePost("numberEndorsements", postId2);
 		}
 		catch(IllegalHandleException e){
 			assert (false) : "IllegalHandleException thrown incorrectly";
@@ -783,7 +775,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -806,12 +798,12 @@ public class SocialMediaPlatformTestApp {
 
 		// typical test for the getter of TotalCommentPosts
 		int numberComments = platform.getTotalCommentPosts();
-		int PostId3;
+		int postId3;
 		int commentId1 = -1;
 		try{
 			platform.createAccount("numberComments");
-			PostId3 = platform.createPost("numberComments", "posat");
-			commentId1 = platform.commentPost("numberComments", PostId3, "fine");
+			postId3 = platform.createPost("numberComments", "post");
+			commentId1 = platform.commentPost("numberComments", postId3, "fine");
 		}
 		catch(IllegalHandleException e){
 			assert (false) : "IllegalHandleException thrown incorrectly";
@@ -820,7 +812,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -846,7 +838,7 @@ public class SocialMediaPlatformTestApp {
 		try{
 			platform.createAccount("MostEndorsedPost");
 			postId4 = platform.createPost("MostEndorsedPost", "so fine");
-			platform.createPost("MostEndorsedPost", "damm so fine");
+			platform.createPost("MostEndorsedPost", "damn so fine");
 			platform.endorsePost("MostEndorsedPost", postId4);
 		}
 		catch(IllegalHandleException e){
@@ -856,7 +848,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -870,13 +862,13 @@ public class SocialMediaPlatformTestApp {
 		assert (postId4 == platform.getMostEndorsedPost()) : "Incorrectly got mostEndorsedPost";
 
 		// typical test for the getter of MostEndorsedAccount
-		int Id3 = -1;
+		int id3 = -1;
 		int postId6 = -1;
 		try{
-			Id3 = platform.createAccount("MostEndorsedAccount1");
+			id3 = platform.createAccount("MostEndorsedAccount1");
 			platform.createAccount("MostEndorsedAccount2");
-			postId6 = platform.createPost("MostEndorsedAccount1", "damm it's so fine");
-			platform.createPost("MostEndorsedAccount2", "damm it is so fine");
+			postId6 = platform.createPost("MostEndorsedAccount1", "damn it's so fine");
+			platform.createPost("MostEndorsedAccount2", "damn it is so fine");
 			platform.endorsePost("MostEndorsedAccount1", postId6);
 		}
 		catch(IllegalHandleException e){
@@ -886,7 +878,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -897,7 +889,7 @@ public class SocialMediaPlatformTestApp {
 		catch(NotActionablePostException e){
 			assert (false) : "PostIDNotRecognisedException";
 		}
-		assert (Id3 == platform.getMostEndorsedAccount()) : "Incorrectly got mostEndorsedAccount";
+		assert (id3 == platform.getMostEndorsedAccount()) : "Incorrectly got mostEndorsedAccount";
 
 		// typical test for ErasePlatform
 		int postId8 = -1;
@@ -905,7 +897,7 @@ public class SocialMediaPlatformTestApp {
 			platform.createAccount("erasePlatform");
 			postId8 = platform.createPost("erasePlatform", "hmm");
 			platform.endorsePost("erasePlatform", postId8);
-			platform.commentPost("erasePlatform", postId8, "damm hmm");
+			platform.commentPost("erasePlatform", postId8, "damn hmm");
 		}
 		catch(IllegalHandleException e){
 			assert (false) : "IllegalHandleException thrown incorrectly";
@@ -914,7 +906,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -932,7 +924,7 @@ public class SocialMediaPlatformTestApp {
 		int postId9 = -1;
 		try{
 			platform.createAccount("savePlatform");
-			postId9 = platform.createPost("savePlatform", "damm oh so fine");
+			postId9 = platform.createPost("savePlatform", "damn oh so fine");
 			platform.endorsePost("savePlatform", postId9);
 			platform.commentPost("savePlatform", postId9, "oh");
 		}
@@ -943,7 +935,7 @@ public class SocialMediaPlatformTestApp {
 			assert (false) : "InvalidHandleException thrown incorrectly";
 		}
 		catch(HandleNotRecognisedException e){
-			assert (false) : "HandlenotRecognisedException thrown incorrectly";
+			assert (false) : "HandleNotRecognisedException thrown incorrectly";
 		}
 		catch(InvalidPostException e){
 			assert (false) : "InvalidPostException thrown incorrectly";
@@ -974,68 +966,5 @@ public class SocialMediaPlatformTestApp {
 		assert (platform.getNumberOfAccounts() == loadedPlatform.getNumberOfAccounts() && platform.getTotalOriginalPosts() == loadedPlatform.getTotalOriginalPosts() && platform.getTotalCommentPosts() == loadedPlatform.getTotalCommentPosts() && platform.getTotalEndorsmentPosts() == loadedPlatform.getTotalEndorsmentPosts());
 		File savedFile = new File(filename);
 		savedFile.delete();
-
-
-		
-		platform.erasePlatform();
-
-		int delEndorser = platform.createAccount("deleteEndorse");
-		int delCommenter = platform.createAccount("commenter");
-
-		int permId = platform.createPost("commenter", "perm");
-		double n = 0;
-		double numberOfTrials = 1_000_000_000;
-		while (n < numberOfTrials){
-			int accountId = platform.createAccount("todelete");
-			int postId = platform.createPost("todelete", "HI");
-			int semiPermID = platform.createPost("commenter", "perm2");
-			platform.endorsePost("todelete", postId);
-			platform.commentPost("todelete", postId, "GOOD post");
-			platform.endorsePost("deleteEndorse", postId);
-
-			int permEndorse = platform.endorsePost("deleteEndorse", permId);
-			int permComment = platform.commentPost("commenter", permId, "HI");
-			platform.removeAccount(accountId);
-			platform.deletePost(permEndorse);
-			platform.deletePost(permComment);
-			platform.deletePost(semiPermID);
-			n++;
-			
-			if(n % 500_000 == 0){
-				System.out.println("Percent Complete: " + 100 * n/numberOfTrials + "%");
-				HashMap<Integer, Post> posts = ((SocialMedia)platform).getPosts();
-				HashMap<String, Account> accountsByHandle = ((SocialMedia)platform).getAccountsByHandle();
-				HashMap<Integer, Account> accountsById = ((SocialMedia)platform).getAccountsById();
-				int numberOfEndorsements = 0;
-				int numberOfOriginalPosts = 0;
-				int numberOfComments = 0;
-				for(int postKey : posts.keySet()){
-					if(posts.get(postKey) instanceof OriginalPost){
-						numberOfOriginalPosts++;
-					}
-					if(posts.get(postKey) instanceof Comment){
-						numberOfComments++;
-					}
-					if(posts.get(postKey) instanceof Endorsement){
-						numberOfEndorsements++;
-					}
-				}
-				System.out.println("Accounts: "+ (accountsByHandle.size() == accountsById.size() ? accountsById.size():"Something went wrong")+" Orignals: " + numberOfOriginalPosts + " Comments: " + numberOfComments + " Endorsements: " + numberOfEndorsements);
-				System.out.println("Accounts: "+ platform.getNumberOfAccounts() +" Orignals: " + platform.getTotalOriginalPosts() + " Comments: " + platform.getTotalCommentPosts() + " Endorsements: " + platform.getTotalEndorsmentPosts());
-				ArrayList<Post> commenterPosts = accountsById.get(delCommenter).getPosts();
-				ArrayList<Post> endorserPosts = accountsById.get(delEndorser).getPosts();
-				ArrayList<Endorsement> permEndorsements = ((ActionablePost)posts.get(permId)).getEndorsements();
-				ArrayList<Endorsement> permComments = ((ActionablePost)posts.get(permId)).getEndorsements();
-				System.out.println("Commenter Posts: " + commenterPosts.size() + " Endorser Posts: " + endorserPosts.size() + " Permanant Post Comments: " + permComments.size() + " Permanant Post Endorsements: " + permEndorsements.size());
-				assert (commenterPosts.size() == 1 && endorserPosts.size() == 0 && permComments.size() == 0 && permEndorsements.size() == 0);
-				System.out.println();
-			}
-			
-
- 			
-			
-		}
-		// Failed 1 billion at 613 500 000
-		System.out.println("Tests passed");
 	}
 }

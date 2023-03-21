@@ -43,8 +43,6 @@ public class Account implements Serializable{
      */
     private ArrayList<Post> posts = new ArrayList<Post>();
 
-    private static final long serialVersionUID = 7407913824743481824l;
-
 
     /**
      * This constructor makes an Account with a given handle
@@ -52,11 +50,14 @@ public class Account implements Serializable{
      * @throws InvalidHandleException when trying to assign an invalid handle
      */
     public Account(String handle) throws InvalidHandleException {
+        // A pre condition checks if the given handle is valid
         isValidHandle(handle);
+
         // The accounts handle, id and description are set
         this.handle = handle;
         this.ID = currentId;
         this.description = "";
+
         // Then the counters are incremented by 1
         currentId++;
         numberAccounts++;
@@ -64,17 +65,20 @@ public class Account implements Serializable{
 
     /**
      * This constructor makes an Account with a given handle and description
-     * @param handle The hadle which will be given to the account
+     * @param handle The handle which will be given to the account
      * @param description The description which will be given to the account
      * @throws InvalidHandleException when trying to assign an invalid handle
      */
     public Account(String handle, String description) throws InvalidHandleException{
+        // A pre-condition checks if the given handle is valid
         isValidHandle(handle);
+
         // The accounts handle, id and description are set
         this.handle = handle;
         this.ID = currentId;
         this.description = description;
-        // Then the couters are incremented by 1
+
+        // Then the counters are incremented by 1
         currentId++;
         numberAccounts++;
     }
@@ -93,7 +97,7 @@ public class Account implements Serializable{
      * @throws InvalidHandleException when trying to assign an invalid handle
      */
     public void setHandle(String handle) throws InvalidHandleException {
-        // This if statement check for is the new handle is empty or has more than 30 characters or contains whitespaces, if it is then the exception is thrown
+        // This pre condition checks if the given handle is valid
 		isValidHandle(handle);
         this.handle = handle;
     }
@@ -138,7 +142,7 @@ public class Account implements Serializable{
     }
 
     /**
-     * Decrementes the number of endorsements and account has receieved on posts
+     * Decrements the number of endorsements and account has received on posts
      */
     public void decrementEndorsements(){
         this.numberOfEndorsements--;
@@ -154,17 +158,12 @@ public class Account implements Serializable{
         // The for loops goes through the accounts posts and calls their delete method
         while(!posts.isEmpty()){
             Post post = posts.get(0);
-            if(post instanceof ActionablePost){
-                ArrayList<Endorsement> endorsements = ((ActionablePost)post).getEndorsements();
-                for(Endorsement endorsement : endorsements){
-                    endorsement.delete();
-                }
-            }
             post.delete();
         }
 
         // The number of accounts is decremented by 1
         numberAccounts--;
+        
         // Assertion checks that the post condition is met and if it is not met then it throws an exception
         assert (originalNumberOfAccounts-1==numberAccounts):"Account not deleted successfully";
     }
@@ -178,7 +177,7 @@ public class Account implements Serializable{
     }
 
     /**
-     * Resets the counters for number of account and current id to their intital values
+     * Resets the counters for number of account and current id to their initial values
      */
     static public void resetCounters(){
         numberAccounts = 0;
@@ -205,10 +204,12 @@ public class Account implements Serializable{
                 index = i;
             }
         }
-        // The post is removed using this ID
-        posts.remove(index);
+
         // Assertion checks that the post condition is met and if it is not met then it throws an exception
         assert (index>=0):"Post not removed successfully";
+
+        // The post is removed using this ID
+        posts.remove(index);
     }
     /**
      * This method returns a string of information about the account
@@ -216,6 +217,7 @@ public class Account implements Serializable{
      */
     @Override
     public String toString(){
+
         // A new StringBuilder is created and then information about the account is appended to it
         StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("ID: ").append(ID).append("\n");
@@ -223,6 +225,7 @@ public class Account implements Serializable{
 		stringBuilder.append("Description: ").append(description).append("\n");
 		stringBuilder.append("Post count: ").append(posts.size()).append("\n");
 		stringBuilder.append("Endorse count: ").append(numberOfEndorsements);
+        
         // The information is returned as a string
         return stringBuilder.toString();
     }
